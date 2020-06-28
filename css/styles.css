@@ -1,0 +1,95 @@
+* {
+  text-rendering: geometricPrecision;
+}
+
+body {
+  background-color: #F9ECE9;
+  font-size: 20px;
+  color: rgba(94,55,52,100);
+}
+
+body, a, p {
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+h1 a {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+a {
+  color: rgba(94,55,52,100);
+}
+
+.container {
+  max-width: 100%;
+  height: auto;
+  margin: 60px;
+}
+
+#info {
+  display: flex;
+}
+
+.main-title {
+  font-size: 52px;
+  font-weight: 300;
+}
+
+
+.main-title a {
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300 !important;
+}
+
+#bio {
+  width: 70%;
+  padding-top: 56px;
+  padding-right: 60px;
+}
+
+#bio .main-title {
+  margin: 0 !important;
+}
+
+#contact {
+  width: 30%;
+}
+
+#contact span:first-child p {
+  margin: 0 !important;
+}
+
+#contact .main-title {
+  margin: 0;
+  padding-top: 36px;
+}
+
+#contact .main-title a {
+  display: inline-block;
+}
+
+#recent-work {
+  margin-top: 150px;
+}
+
+#recent-work ul {
+  list-style-type: none;
+  padding: 0;
+  max-width: 85%;
+}
+
+#recent-work ul li {
+  margin: 80px auto;
+}
+
+#recent-work ul li:first-child {
+  margin-top: 40px;
+}
+
+.footer {
+  margin-top: 150px;
+}
