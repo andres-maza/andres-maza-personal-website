@@ -22,16 +22,17 @@ h1 a {
 
 a {
   color: rgba(94,55,52,100);
+  transition: opacity 150ms ease-in-out;
+}
+
+a:hover {
+  opacity: .6;
 }
 
 .container {
   max-width: 100%;
   height: auto;
   margin: 60px;
-}
-
-#info {
-  display: flex;
 }
 
 .main-title {
@@ -43,6 +44,14 @@ a {
 .main-title a {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300 !important;
+}
+
+.secondary-text {
+  opacity: .6;
+}
+
+#info {
+  display: flex;
 }
 
 #bio {
@@ -79,7 +88,7 @@ a {
 #recent-work ul {
   list-style-type: none;
   padding: 0;
-  max-width: 85%;
+  width: 86%;
 }
 
 #recent-work ul li {
@@ -92,4 +101,39 @@ a {
 
 .footer {
   margin-top: 150px;
+}
+
+
+
+@media (max-width: 880px) {
+  body {
+    font-size: 18px;
+  }
+  .main-title {
+    font-size: 36px;
+  }
+  .container {
+    margin: 40px 20px;
+  }
+  #info {
+    flex-direction: column;
+  }
+  #bio {
+    width: 95%;
+    padding-top: 20px;
+    padding-right: 0px;
+  }
+  #contact {
+    width: 100%;
+    margin-top: 80px;
+  }
+  #recent-work {
+    margin-top: 100px;
+  }
+  #recent-work ul {
+    width: 95%;
+  }
+  #bio, #recent-work ul {
+    max-width: 650px;
+  }
 }
