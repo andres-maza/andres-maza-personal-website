@@ -3,9 +3,9 @@
 }
 
 body {
-  background-color: #F9ECE9;
+  background-color: rgba(255,255,255,1);
   font-size: 20px;
-  color: rgba(94,55,52,100);
+  color: rgba(0,0,0,1);
 }
 
 body, a, p {
@@ -17,11 +17,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 a {
+  color: rgba(0,0,0,1);
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 a {
-  color: rgba(94,55,52,100);
+  color: rgba(37,77,255,1);
   transition: opacity 150ms ease-in-out;
 }
 
@@ -36,7 +37,7 @@ a:hover {
 }
 
 .main-title {
-  font-size: 52px;
+  font-size: 56px;
   font-weight: 300;
 }
 
@@ -50,59 +51,73 @@ a:hover {
   opacity: .6;
 }
 
-#info {
+#hp__main-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+#hp__main-navigation p {
+  margin: 0;
+}
+
+#hp__main-content {
   display: flex;
 }
 
-#bio {
-  width: 70%;
-  padding-top: 56px;
-  padding-right: 60px;
-}
-
-#bio .main-title {
-  margin: 0 !important;
-}
-
-#contact {
-  width: 30%;
-}
-
-#contact span:first-child p {
-  margin: 0 !important;
-}
-
-#contact .main-title {
-  margin: 0;
-  padding-top: 36px;
-}
-
-#contact .main-title a {
-  display: inline-block;
-}
-
-#recent-work {
-  margin-top: 150px;
-}
-
-#recent-work ul {
+#hp__main-content ul {
   list-style-type: none;
-  padding: 0;
-  width: 86%;
+  padding-left: 0;
 }
 
-#recent-work ul li {
-  margin: 80px auto;
+#hp__main-content ul li {
+  margin-top: 100px;
 }
 
-#recent-work ul li:first-child {
-  margin-top: 40px;
+#hp__main-content ul li:first-child {
+  margin-top: 0;
 }
 
-.footer {
-  margin-top: 150px;
+#hp__main-content ul li img {
+  display: inline-block;
+  width: 100%;
 }
 
+#hp__main-content .cs__context {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+#intro {
+  max-width: 40%;
+  height: 100%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 40px;
+}
+
+#intro h1.main-title {
+  padding-right: 40px;
+}
+
+#wv-emoji {
+  display: inline-block !important;
+  animation: 1s ease-in-out infinite hello;
+}
+
+@keyframes hello {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 
 
 @media (max-width: 880px) {
@@ -114,26 +129,5 @@ a:hover {
   }
   .container {
     margin: 40px 20px;
-  }
-  #info {
-    flex-direction: column;
-  }
-  #bio {
-    width: 95%;
-    padding-top: 20px;
-    padding-right: 0px;
-  }
-  #contact {
-    width: 100%;
-    margin-top: 80px;
-  }
-  #recent-work {
-    margin-top: 100px;
-  }
-  #recent-work ul {
-    width: 95%;
-  }
-  #bio, #recent-work ul {
-    max-width: 650px;
   }
 }
