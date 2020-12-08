@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
     )
   };
 
+  // https://stackoverflow.com/a/7717572 Smooht Scrolling w/ URL update
+  $('a[href^="#"]').click(function () {
+    $('html, body').animate({
+        scrollTop: $('[name="' + $.attr(this, 'href').substr(1) + '"]').offset().top
+    }, 500);
+
+    return false;
+  });
+
   // jQuery rather than Vanilla JS :'(
   $('.main-carousel').flickity({
     cellAlign: 'left',
@@ -23,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   $('.main-carousel').each(function(i, item) {
-    if(isElementXPercentInViewport(item, 40)) {
+    if(isElementXPercentInViewport(item, 30)) {
       $(this).flickity('playPlayer')
       return;
     } else {
@@ -33,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   $(document).on('scroll', function() {
     $('.main-carousel').each(function(i, item) {
-      if(isElementXPercentInViewport(item, 40)) {
+      if(isElementXPercentInViewport(item, 30)) {
         $(this).flickity('unpausePlayer')
         return;
       } else {

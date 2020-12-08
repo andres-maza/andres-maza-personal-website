@@ -2,6 +2,12 @@
   text-rendering: geometricPrecision;
 }
 
+a[name="top"] {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
 body {
   background-color: rgba(255,255,255,1);
   font-size: 20px;
@@ -160,6 +166,10 @@ button p {
   width: 60%;
 }
 
+#ancient-foods .main-carousel {
+  background-color: #40401b;
+}
+
 
 /* Flickity Properties */
 
@@ -302,6 +312,6 @@ button p {
     margin: 0px 20px 40px 20px;
   }
   .main-carousel {
-    height: 69.19vw;
+    height: 69.10vw;
   }
 }
