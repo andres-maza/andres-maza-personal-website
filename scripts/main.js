@@ -20,15 +20,44 @@ document.addEventListener('DOMContentLoaded', function() {
     return false;
   });
 
+  // $('img').each(function(i, item) {
+  //   $(this).on('load', function() {
+  //     $(this).fadeIn('slow');
+  //     $(this).toggleClass('fd')
+  //   });
+  // });
+
   // jQuery rather than Vanilla JS :'(
-  $('.main-carousel').flickity({
-    cellAlign: 'left',
-    contain: true,
-    freeScroll: true,
-    prevNextButtons: false,
-    pageDots: false,
-    imagesLoaded: true,
-    autoPlay: 2000
+  // $('.main-carousel').flickity({
+  //   cellAlign: 'left',
+  //   contain: true,
+  //   freeScroll: true,
+  //   prevNextButtons: false,
+  //   pageDots: false,
+  //   imagesLoaded: true,
+  //   autoPlay: 2000
+  // });
+
+  $('.main-carousel').each(function(i, item) {
+    let parentElement = $(this);
+    // console.log(parentElement[0].children);
+    $(parentElement[0].children).each(function(i, item) {
+      // console.log($(this)[0].children);
+      $($(this)[0].children).on('load', function() {
+        parentElement.flickity({
+          cellAlign: 'left',
+          contain: true,
+          freeScroll: true,
+          prevNextButtons: false,
+          pageDots: false,
+          imagesLoaded: true,
+          autoPlay: 2000
+        });
+
+        $(this).fadeIn('slow');
+        $(this).toggleClass('fd');
+      })
+    })
   });
 
   $('.main-carousel').each(function(i, item) {
@@ -81,6 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     else if (targetText == 'Collapse Screen') {
       $(this)[0].children[0].innerText = 'Expand Screen';
     }
-  })
+  });
 
 });

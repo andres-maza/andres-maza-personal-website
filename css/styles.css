@@ -8,6 +8,16 @@ a[name="top"] {
   width: 100%;
 }
 
+img {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img.fd {
+  opacity: 1;
+}
+
 body {
   background-color: rgba(255,255,255,1);
   font-size: 20px;
