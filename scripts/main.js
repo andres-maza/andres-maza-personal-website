@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Hello World!');
+
   // https://stackoverflow.com/a/51121566 (Check % of Element in Viewport is True or False)
   const isElementXPercentInViewport = function(el, percentVisible) {
     let rect = el.getBoundingClientRect(),
@@ -11,108 +11,49 @@ document.addEventListener('DOMContentLoaded', function() {
     )
   };
 
-  // element argument can be a selector string
-  // for an individual element
-
-  var caseStudyCarousels = document.querySelectorAll('.main-carousel');
-
-  // for (let i = 0; i < caseStudyCarousels.length; i++) {
-  //   var flkty = new Flickity (caseStudyCarousels[i], {
-  //     //options
-  //     cellAlign: 'left',
-  //     contain: true,
-  //     freeScroll: true,
-  //     contain: true,
-  //     prevNextButtons: false,
-  //     pageDots: false,
-  //     autoPlay: 1500
-  //   });
-  // };
-
+  // jQuery rather than Vanilla JS :'(
   $('.main-carousel').flickity({
-    // options
     cellAlign: 'left',
     contain: true,
     freeScroll: true,
-    autoPlay: 1500
+    prevNextButtons: false,
+    pageDots: false,
+    imagesLoaded: true,
+    autoPlay: 2000
   });
 
-  document.addEventListener('scroll', function() {
+  $(document).on('scroll', function() {
     $('.main-carousel').each(function(i, item) {
-      if(isElementXPercentInViewport(item, 50)) {
+      if(isElementXPercentInViewport(item, 40)) {
         $(this).flickity('unpausePlayer')
         return;
       } else {
         $(this).flickity('pausePlayer');
       }
     });
+  });
 
-    // $('.main-carousel').each(function() {
-    //   if(isElementXPercentInViewport(this, 50)){
-    //     $('.main-carousel').flickity('pausePlayer');
-    //   }
-    //   else {
-    //   }
-    // })
-    // for (let i = 0; i < caseStudyCarousels.length; i++) {
-    //   let isHalfVisible = isElementXPercentInViewport(caseStudyCarousels[i], 50);
-    //
-    //   if (isHalfVisible) {
-    //     console.log(flkty.getCellElements());
-    //
-    //   }
-    // };
+  $(`.main-carousel`).on('click', function() {
+    console.log($(this));
+    $(this).flickity('stopPlayer');
+
+    setTimeout( () => {
+      $(this).flickity('playPlayer');
+    }, 3000)
+  });
+
+  $('.expand_btn').on('click', function() {
+    let targetElementId= `#${$(this)[0].parentElement.parentElement.id}`;
+    let targetText = $(this)[0].children[0].innerText;
+
+    $(`${targetElementId} .main-carousel`).toggleClass('is-expanded').flickity('resize');
+
+    if(targetText == 'Expand Screen') {
+      $(this)[0].children[0].innerText = 'Collapse Screen';
+    }
+    else if (targetText == 'Collapse Screen') {
+      $(this)[0].children[0].innerText = 'Expand Screen';
+    }
   })
-
-
-  // let containsClass = console.log(caseStudyCarousels[i].classList.contains('flickity-enabled'));
-  //
-  // // If in viewport and does not contain Flickity class, then set a new Flickity slider to element.
-  // if (singleCaseStudy && !containsClass) {
-  //   console.log(caseStudyCarousels[i]);
-  //
-  //   var flkty = new Flickity (caseStudyCarousels[i], {
-  //     cellAlign: 'left',
-  //     contain: true,
-  //     freeScroll: true,
-  //     contain: true,
-  //     prevNextButtons: false,
-  //     pageDots: false,
-  //     autoPlay: 1500
-  //   })
-  //
-  //   if (singleCaseStudy && containsClass) {
-  //     flkty.options.autoPlay = false;
-  //   }
-  //
-  // } else {
-  //   return
-  // }
-
-
-  // document.addEventListener('scroll', function() {
-  //
-  //   for (let i = 0; i < caseStudyCarousels.length; i++) {
-  //     let singleCaseStudyCarousel = caseStudyCarousels[i]
-  //
-  //     let isInWindow = isElementXPercentInViewport(singleCaseStudyCarousel, 50);
-  //
-  //     if (isInWindow) {
-  //       console.log('True');
-  //     } else {
-  //       console.log('False');
-  //     }
-  //   }
-  //   //
-  //   // let isInWindow = isElementXPercentInViewport(singleCaseStudyCarousel, 50);
-  //   //
-  //   // if (isInWindow) {
-  //   //   console.log('True');
-  //   // }
-  //   // else {
-  //   //   console.log('False');
-  //   // }
-  // });
-
 
 });

@@ -34,6 +34,26 @@ a:hover {
   color: rgba(37,77,255,.6);
 }
 
+button {
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(37,77,255,1);
+  text-decoration: underline;
+  transition: color 150ms ease-in-out;
+}
+
+button:hover {
+  color: rgba(37,77,255,.6);
+}
+
+button p {
+  margin: 0;
+}
+
 .container {
   max-width: 100%;
   height: auto;
@@ -66,6 +86,20 @@ a:hover {
   margin: 0;
 }
 
+#hp__main-navigation span:first-child p {
+  color: rgba(0,0,0,1) !important;
+}
+
+#hp__main-navigation span:first-child p a {
+  color: rgba(0,0,0,1) !important;
+  text-decoration: none;
+}
+
+#hp__main-navigation span:first-child p a:visited {
+  color: rgba(0,0,0,1) !important;
+  text-decoration: none;
+}
+
 #hp__main-content {
   display: flex;
 }
@@ -93,10 +127,6 @@ a:hover {
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
-}
-
-#hp__main-content .cs__context span:last-child {
-  display: none;
 }
 
 #wv-emoji {
@@ -134,9 +164,15 @@ a:hover {
 /* Flickity Properties */
 
 .main-carousel {
-  height: 70.23vh;
+  height: 38.64vw;
   overflow: hidden;
-
+}
+.main-carousel.is-expanded {
+  height: auto;
+  overflow: visible;
+}
+.main-carousel.is-expanded .carousel-cell {
+  height: auto !important;
 }
 
 .carousel-cell {
@@ -184,6 +220,12 @@ a:hover {
     position: relative;
     margin-bottom: 60px;
   }
+  #recent-work {
+    width: auto;
+  }
+  .main-carousel {
+    height: 65.81vw;
+  }
 }
 
 
@@ -197,9 +239,7 @@ a:hover {
   .container {
     margin: 20px 20px 40px 20px;
   }
-  .cs__context span:first-child {
-    max-width: 60%;
-  }
+
   #hp__main-content ul li {
     margin-top: 60px;
   }
@@ -235,24 +275,24 @@ a:hover {
   #hp__main-content ul li img {
     vertical-align: bottom;
   }
-  #cs-vidmob {
+  #vidmob .cs__context {
     background-color: rgba(0,0,0,1);
     color: rgba(255,255,255,1) !important;
   }
-  #cs-vidmob a {
+  #vidmob .cs__context a {
     color: rgba(255,255,255,1) !important;
   }
-  #cs-ancient-foods {
+  #ancient-foods .cs__context {
     background-color: #40401b;
     color: rgba(255,255,255,1) !important;
   }
-  #cs-ancient-foods a {
+  #ancient-foods .cs__context a {
     color: rgba(255,255,255,1) !important;
   }
-  #cs-dailypay {
+  #dailypay .cs__context {
     background-color: #e8ebf0;
   }
-  #cs-arlo {
+  #arlo .cs__context {
     background-color: #fafafa;
   }
   #footer {
