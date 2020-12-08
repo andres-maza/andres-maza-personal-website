@@ -22,6 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
     autoPlay: 2000
   });
 
+  $('.main-carousel').each(function(i, item) {
+    if(isElementXPercentInViewport(item, 40)) {
+      $(this).flickity('playPlayer')
+      return;
+    } else {
+      $(this).flickity('pausePlayer');
+    }
+  });
+
   $(document).on('scroll', function() {
     $('.main-carousel').each(function(i, item) {
       if(isElementXPercentInViewport(item, 40)) {
@@ -33,13 +42,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  $(`.main-carousel`).on('click', function() {
+  $(`.main-carousel`).on('mouseleave', function() {
     console.log($(this));
     $(this).flickity('stopPlayer');
 
     setTimeout( () => {
       $(this).flickity('playPlayer');
-    }, 3000)
+    }, 1000)
+  });
+
+  $(`.main-carousel`).on('touchend', function() {
+    console.log($(this));
+    $(this).flickity('stopPlayer');
+
+    setTimeout( () => {
+      $(this).flickity('playPlayer');
+    }, 1000)
   });
 
   $('.expand_btn').on('click', function() {

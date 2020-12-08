@@ -224,7 +224,7 @@ button p {
     width: auto;
   }
   .main-carousel {
-    height: 65.81vw;
+    height: 61.34vw;
   }
 }
 
@@ -275,6 +275,9 @@ button p {
   #hp__main-content ul li img {
     vertical-align: bottom;
   }
+  .cs__context span:first-child {
+    max-width: 60%;
+  }
   #vidmob .cs__context {
     background-color: rgba(0,0,0,1);
     color: rgba(255,255,255,1) !important;
@@ -286,7 +289,7 @@ button p {
     background-color: #40401b;
     color: rgba(255,255,255,1) !important;
   }
-  #ancient-foods .cs__context a {
+  #ancient-foods .cs__context button {
     color: rgba(255,255,255,1) !important;
   }
   #dailypay .cs__context {
@@ -297,5 +300,8 @@ button p {
   }
   #footer {
     margin: 0px 20px 40px 20px;
+  }
+  .main-carousel {
+    height: 69.19vw;
   }
 }
