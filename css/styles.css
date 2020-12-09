@@ -177,7 +177,15 @@ button p {
 }
 
 #ancient-foods .main-carousel {
-  background-color: #40401b;
+  background-color: #404019;
+}
+
+#dailypay .main-carousel {
+  background-color: #E8ECF0;
+}
+
+#arlo .main-carousel {
+  background-color: #FAFAFA;
 }
 
 
