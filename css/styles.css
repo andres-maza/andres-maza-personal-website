@@ -227,17 +227,14 @@ button p {
 
 
 /* Flickity Properties */
+.main-carousel.ld {
+  height: 38.64vw;
+  background-color: rgba(250,251,252,1);
+}
 
 #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
   height: 38.64vw;
   overflow: scroll;
-}
-.main-carousel.is-expanded {
-  height: auto;
-  overflow: visible;
-}
-.main-carousel.is-expanded .carousel-cell {
-  height: auto !important;
 }
 
 .carousel-cell {

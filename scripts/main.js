@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
     return false;
   });
 
-  // init Flickity when image in carousel has loaded, toggle 'fd' CSS fade transition class.
-  // Also some handling for if caroursel is in view or not.
+
   $('.main-carousel').each(function(i, item) {
     let parentElement = $(this);
-    let isImageInViewPort = false;
+    let numImageLoaded = 0;
 
-    $(parentElement[0].children).each(function(i, item) {
-      $($(this)[0].children).on('load', function() {
+    // Init Flickity Once All Images in Cell Done Loading
+    function myFunction () {
+      if(numImageLoaded >= parentElement[0].children.length) {
         parentElement.flickity({
           cellAlign: 'left',
           contain: true,
@@ -39,19 +39,27 @@ document.addEventListener('DOMContentLoaded', function() {
           autoPlay: 2000
         });
 
-        $(this).fadeIn('slow');
-        $(this).toggleClass('fd');
-
         if(isElementXPercentInViewport(parentElement[0], 30)) {
           parentElement.flickity('playPlayer');
         }
         else {
           parentElement.flickity('stopPlayer');
         }
-      })
-    })
+      }
+    }
+    // Load Images in Cell
+    $(parentElement[0].children).each(function(i, item) {
+      // console.log(i);
+      $($(this)[0].children).on('load', function() {
+        numImageLoaded++;
+        $(this).fadeIn('slow');
+        $(this).toggleClass('fd');
 
-    //On slide change scroll container back to top.
+        myFunction();
+      })
+    });
+
+    //Change Slide Scroll Top
     parentElement.on('change.flickity', function(event, index) {
       parentElement[0].scrollTo({
         top: 0,
@@ -61,7 +69,40 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   });
 
-  // Play/plause Flickity on scroll.
+  $('.main-carousel').on('ready.flickity', function () {
+    $(this).removeClass('ld');
+    //Pause on Scroll
+    $(this).on('scroll', function () {
+      $(this).flickity('pausePlayer');
+    });
+
+    //Resume on Mouse Leave
+    $(this).on('mouseleave', function() {
+      setTimeout( () => {
+        $(this).flickity('playPlayer');
+      }, 2000)
+    });
+
+    //Pause on Touch Start
+    $(this).on('touchstart', function() {
+      $(this).flickity('pausePlayer');
+    });
+
+    //Pause on Touch Move
+    $(this).on('touchmove', function() {
+      $(this).flickity('pausePlayer');
+    });
+
+    //Resume on Touch End
+    $(this).on('touchend', function() {
+      setTimeout( () => {
+        $(this).flickity('playPlayer');
+      }, 2000)
+    })
+
+  });
+
+  // If Flickity on ViewPort then PlayPlayer, else PausePlayer
   $(document).on('scroll', function() {
     $('.main-carousel').each(function(i, item) {
       if(isElementXPercentInViewport(item, 30)) {
@@ -72,49 +113,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-
-  // Force resume Flickity after mouseleave.
-  // Fixes indefinite pause from Flickity on user click.
-  $(`.main-carousel`).on('mouseleave', function() {
-    $(this).flickity('stopPlayer');
-
-    setTimeout( () => {
-      $(this).flickity('playPlayer');
-    }, 1000)
-  });
-
-  // Stop Flickity on touchstart.
-  $(`.main-carousel`).on('touchstart', function() {
-    $(this).flickity('pausePlayer');
-  });
-
-  // Stop Flickity on touchmove.
-  $(`.main-carousel`).on('touchmove', function() {
-    $(this).flickity('pausePlayer');
-  });
-
-  // Force resume Flickity after user ends touch.
-  $(`.main-carousel`).on('touchend', function() {
-    $(this).flickity('stopPlayer');
-
-    setTimeout( () => {
-      $(this).flickity('playPlayer');
-    }, 2500)
-  });
-
-  // Flickity expand container for carousels that use "Expand Button".
-  $('.expand_btn').on('click', function() {
-    let targetElementId= `#${$(this)[0].parentElement.parentElement.id}`;
-    let targetText = $(this)[0].children[0].innerText;
-
-    $(`${targetElementId} .main-carousel`).toggleClass('is-expanded').flickity('resize');
-
-    if(targetText == 'Expand Screen') {
-      $(this)[0].children[0].innerText = 'Collapse Screen';
-    }
-    else if (targetText == 'Collapse Screen') {
-      $(this)[0].children[0].innerText = 'Expand Screen';
-    }
-  });
-
 });
