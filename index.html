@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <!--
+      Designed and coded by Andres Maza, a.k.a "Easy Ease", as *some* would call me.
+
+      For the carousels, I used "Flickity".
+
+      Me when I thought Flickity would do everything I wanted right out the box: https://gph.is/1sGCkn5
+      Me when I realized it didn't: https://gph.is/g/E0pM1wr
+      Me when the Flickity docs said it wouldn't do those things because they were bad for UX: https://gph.is/g/amQg9oK
+    -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/styles.css">
+
+    <meta property="og:title" content="Andres Maza">
+    <meta property="og:description" content="Andres Maza is a NYC-based Senior Product Designer from Guatemala.">
+    <!-- <meta property="og:image" content=""> -->
+    <meta property="og:url" content="https://andresmaza.com">
+    <meta name="twitter:image:alt" content="Andres Maza, Senior Product Designer based in NYC.">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <script src="./scripts/main.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
+    <link rel="manifest" href="./favicon/site.webmanifest">
+    <link rel="mask-icon" href="./favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff"> -->
     <title>Andres Maza</title>
   </head>
   <body>
@@ -48,7 +73,7 @@
             <li id="ancient-foods">
                 <div class="cs__context">
                   <span>Website Design for Ancient Foods</span>
-                  <button class="expand_btn"><p>Expand Screen</p></button>
+                  <p class="secondary-text scroll-cta">Scroll Page to See More</p>
                 </div>
                 <div class="main-carousel">
                   <div class="carousel-cell">
@@ -65,7 +90,7 @@
             <li id="dailypay">
                 <div class="cs__context">
                   <span>Website Design for DailyPay</span>
-                  <button class="expand_btn"><p>Expand Screen</p></button>
+                  <p class="secondary-text scroll-cta">Scroll Page to See More</p>
                 </div>
                 <div class="main-carousel">
                   <div class="carousel-cell">
@@ -88,7 +113,7 @@
             <li id="arlo">
                 <div class="cs__context">
                   <span>Website Design for Arlo</span>
-                  <button class="expand_btn"><p>Expand Screen</p></button>
+                  <p class="secondary-text scroll-cta">Scroll Page to See More</p>
                 </div>
                 <div class="main-carousel">
                   <div class="carousel-cell">

@@ -70,6 +70,10 @@ button p {
   margin: 0;
 }
 
+/* .expand_btn {
+  display: none;
+} */
+
 .container {
   max-width: 100%;
   height: auto;
@@ -88,7 +92,22 @@ button p {
 }
 
 .secondary-text {
-  opacity: .6;
+  color: rgba(0,0,0,.6);
+}
+
+@keyframes pseudo-scroll-dot {
+  0%{
+    top: 0;
+    opacity: 1;
+  }
+  50% {
+    top: -20px;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 #hp__main-navigation {
@@ -176,6 +195,24 @@ button p {
   width: 60%;
 }
 
+.scroll-cta {
+  margin: 0;
+  position: relative;
+}
+.scroll-cta::after {
+  content: " ";
+  display: inline-block;
+  position: relative;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  margin: 0px 0px 0px 20px;
+  background-color: rgba(0,0,0,.2);
+  opacity: 1;
+  border-radius: 50%;
+  animation: 2s cubic-bezier(0.83, 0, 0.17, 1) infinite pseudo-scroll-dot;
+}
+
 #ancient-foods .main-carousel {
   background-color: #404019;
 }
@@ -191,9 +228,9 @@ button p {
 
 /* Flickity Properties */
 
-.main-carousel {
+#ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
   height: 38.64vw;
-  overflow: hidden;
+  overflow: scroll;
 }
 .main-carousel.is-expanded {
   height: auto;
@@ -251,7 +288,7 @@ button p {
   #recent-work {
     width: auto;
   }
-  .main-carousel {
+  #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
     height: 61.34vw;
   }
 }
@@ -294,7 +331,7 @@ button p {
     padding-bottom: 44px;
   }
   #hp__main-content .cs__context {
-    padding: 40px 20px 24px 20px;
+    padding: 40px 20px 20px 20px;
     margin-bottom: 0;
   }
   #hp__main-content ul li {
@@ -306,6 +343,24 @@ button p {
   .cs__context span:first-child {
     max-width: 60%;
   }
+  #ancient-foods .cs__context, #dailypay .cs__context, #arlo .cs__context {
+    flex-direction: column;
+  }
+  .scroll-cta {
+    width: 100%;
+    margin-top: 28px;
+  }
+  .scroll-cta:after {
+    display: block;
+    margin-top: -8px;
+    margin-left: auto;
+  }
+  #ancient-foods .scroll-cta {
+    color: rgba(255,255,255,.6);
+  }
+  #ancient-foods .scroll-cta::after {
+    background-color: rgba(255,255,255,.6);
+  }
   #vidmob .cs__context {
     background-color: rgba(0,0,0,1);
     color: rgba(255,255,255,1) !important;
@@ -314,22 +369,22 @@ button p {
     color: rgba(255,255,255,1) !important;
   }
   #ancient-foods .cs__context {
-    background-color: #40401b;
+    background-color: #404019;
     color: rgba(255,255,255,1) !important;
   }
   #ancient-foods .cs__context button {
     color: rgba(255,255,255,1) !important;
   }
   #dailypay .cs__context {
-    background-color: #e8ebf0;
+    background-color: #E8ECF0;
   }
   #arlo .cs__context {
-    background-color: #fafafa;
+    background-color: #FAFAFA;
   }
   #footer {
     margin: 0px 20px 40px 20px;
   }
-  .main-carousel {
+    #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
     height: 69.10vw;
   }
 }

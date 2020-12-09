@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
           prevNextButtons: false,
           pageDots: false,
           imagesLoaded: true,
+          adaptiveHeight: true,
           autoPlay: 2000
         });
 
@@ -48,6 +49,15 @@ document.addEventListener('DOMContentLoaded', function() {
           parentElement.flickity('stopPlayer');
         }
       })
+    })
+
+    //On slide change scroll container back to top.
+    parentElement.on('change.flickity', function(event, index) {
+      parentElement[0].scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
     })
   });
 
@@ -66,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Force resume Flickity after mouseleave.
   // Fixes indefinite pause from Flickity on user click.
   $(`.main-carousel`).on('mouseleave', function() {
-    console.log($(this));
     $(this).flickity('stopPlayer');
 
     setTimeout( () => {
@@ -74,9 +83,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000)
   });
 
+  // Stop Flickity on touchstart.
+  $(`.main-carousel`).on('touchstart', function() {
+    $(this).flickity('stopPlayer');
+  });
+
+  // Stop Flickity on touchmove.
+  $(`.main-carousel`).on('touchmove', function() {
+    $(this).flickity('stopPlayer');
+  });
+
   // Force resume Flickity after user ends touch.
   $(`.main-carousel`).on('touchend', function() {
-    console.log($(this));
     $(this).flickity('stopPlayer');
 
     setTimeout( () => {
