@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return false;
   });
 
-
   $('.main-carousel').each(function(i, item) {
     let parentElement = $(this);
     let numImageLoaded = 0;

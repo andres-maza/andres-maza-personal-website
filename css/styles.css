@@ -95,21 +95,6 @@ button p {
   color: rgba(0,0,0,.6);
 }
 
-@keyframes pseudo-scroll-dot {
-  0%{
-    top: 0;
-    opacity: 1;
-  }
-  50% {
-    top: -20px;
-    opacity: 0;
-  }
-  100% {
-    top: 0;
-    opacity: 1;
-  }
-}
-
 #hp__main-navigation {
   display: flex;
   align-items: center;
@@ -169,6 +154,17 @@ button p {
   animation: 1s ease-in-out infinite hello;
 }
 
+@keyframes hello {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 
 #intro {
   max-width: 40%;
@@ -213,6 +209,21 @@ button p {
   animation: 2s cubic-bezier(0.83, 0, 0.17, 1) infinite pseudo-scroll-dot;
 }
 
+@keyframes pseudo-scroll-dot {
+  0%{
+    top: 0;
+    opacity: 1;
+  }
+  50% {
+    top: -20px;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+
 #ancient-foods .main-carousel {
   background-color: #404019;
 }
@@ -223,6 +234,11 @@ button p {
 
 #arlo .main-carousel {
   background-color: #FAFAFA;
+}
+
+#cc {
+  margin-top: 5vw;
+  margin-bottom: 0;
 }
 
 
@@ -245,18 +261,6 @@ button p {
   width: 100%;
 }
 
-
-@keyframes hello {
-  0% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(45deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
 
 @media (max-width: 1365px) {
   .main-title {
@@ -386,5 +390,8 @@ button p {
   }
   #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
     height: 69.10vw;
+  }
+  #cc {
+    margin-top: 40px;
   }
 }
