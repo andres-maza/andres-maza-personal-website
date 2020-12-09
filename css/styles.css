@@ -346,6 +346,9 @@ button p {
   #ancient-foods .cs__context, #dailypay .cs__context, #arlo .cs__context {
     flex-direction: column;
   }
+  #ancient-foods .cs__context span:first-child , #dailypay .cs__context span:first-child , #arlo .cs__context span:first-child  {
+    max-width: 100%;
+  }
   .scroll-cta {
     width: 100%;
     margin-top: 28px;
@@ -384,7 +387,7 @@ button p {
   #footer {
     margin: 0px 20px 40px 20px;
   }
-    #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
+  #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
     height: 69.10vw;
   }
 }

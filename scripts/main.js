@@ -85,12 +85,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Stop Flickity on touchstart.
   $(`.main-carousel`).on('touchstart', function() {
-    $(this).flickity('stopPlayer');
+    $(this).flickity('pausePlayer');
   });
 
   // Stop Flickity on touchmove.
   $(`.main-carousel`).on('touchmove', function() {
-    $(this).flickity('stopPlayer');
+    $(this).flickity('pausePlayer');
   });
 
   // Force resume Flickity after user ends touch.
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setTimeout( () => {
       $(this).flickity('playPlayer');
-    }, 1000)
+    }, 2500)
   });
 
   // Flickity expand container for carousels that use "Expand Button".
