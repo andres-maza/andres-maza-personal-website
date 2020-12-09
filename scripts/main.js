@@ -20,29 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     return false;
   });
 
-  // $('img').each(function(i, item) {
-  //   $(this).on('load', function() {
-  //     $(this).fadeIn('slow');
-  //     $(this).toggleClass('fd')
-  //   });
-  // });
-
-  // jQuery rather than Vanilla JS :'(
-  // $('.main-carousel').flickity({
-  //   cellAlign: 'left',
-  //   contain: true,
-  //   freeScroll: true,
-  //   prevNextButtons: false,
-  //   pageDots: false,
-  //   imagesLoaded: true,
-  //   autoPlay: 2000
-  // });
-
+  // init Flickity when image in carousel has loaded, toggle 'fd' CSS fade transition class.
+  // Also some handling for if caroursel is in view or not.
   $('.main-carousel').each(function(i, item) {
     let parentElement = $(this);
-    // console.log(parentElement[0].children);
+    let isImageInViewPort = false;
+
     $(parentElement[0].children).each(function(i, item) {
-      // console.log($(this)[0].children);
       $($(this)[0].children).on('load', function() {
         parentElement.flickity({
           cellAlign: 'left',
@@ -56,23 +40,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         $(this).fadeIn('slow');
         $(this).toggleClass('fd');
+
+        if(isElementXPercentInViewport(parentElement[0], 30)) {
+          parentElement.flickity('playPlayer');
+        }
+        else {
+          parentElement.flickity('stopPlayer');
+        }
       })
     })
   });
 
-  $('.main-carousel').each(function(i, item) {
-    if(isElementXPercentInViewport(item, 30)) {
-      $(this).flickity('playPlayer')
-      return;
-    } else {
-      $(this).flickity('pausePlayer');
-    }
-  });
-
+  // Play/plause Flickity on scroll.
   $(document).on('scroll', function() {
     $('.main-carousel').each(function(i, item) {
       if(isElementXPercentInViewport(item, 30)) {
-        $(this).flickity('unpausePlayer')
+        $(this).flickity('playPlayer')
         return;
       } else {
         $(this).flickity('pausePlayer');
@@ -80,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Force resume Flickity after mouseleave.
+  // Fixes indefinite pause from Flickity on user click.
   $(`.main-carousel`).on('mouseleave', function() {
     console.log($(this));
     $(this).flickity('stopPlayer');
@@ -89,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000)
   });
 
+  // Force resume Flickity after user ends touch.
   $(`.main-carousel`).on('touchend', function() {
     console.log($(this));
     $(this).flickity('stopPlayer');
@@ -98,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000)
   });
 
+  // Flickity expand container for carousels that use "Expand Button".
   $('.expand_btn').on('click', function() {
     let targetElementId= `#${$(this)[0].parentElement.parentElement.id}`;
     let targetText = $(this)[0].children[0].innerText;
