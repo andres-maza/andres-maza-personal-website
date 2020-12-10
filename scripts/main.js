@@ -73,13 +73,17 @@ document.addEventListener('DOMContentLoaded', function() {
     //Pause on Scroll
     $(this).on('scroll', function () {
       $(this).flickity('pausePlayer');
+
+      setTimeout( () => {
+        $(this).flickity('playPlayer');
+      }, 3000)
     });
 
     //Resume on Mouse Leave
     $(this).on('mouseleave', function() {
       setTimeout( () => {
         $(this).flickity('playPlayer');
-      }, 2000)
+      }, 1000)
     });
 
     //Pause on Touch Start
@@ -96,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     $(this).on('touchend', function() {
       setTimeout( () => {
         $(this).flickity('playPlayer');
-      }, 2000)
+      }, 1000)
     })
 
   });
@@ -112,5 +116,5 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  
+
 });

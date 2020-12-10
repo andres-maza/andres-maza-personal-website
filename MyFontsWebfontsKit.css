@@ -1,0 +1,34 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3985456, 2020-12-09T20:31:38-0500
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s).
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: HelveticaNeueLTPro-Lt by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/neue-helvetica/pro-45-light-189172/
+ *
+ * Webfont: HelveticaNeueLTPro-Roman by Linotype
+ * URL: https://www.myfonts.com/fonts/linotype/neue-helvetica/pro-55-roman/
+ *
+ *
+ * Webfonts copyright: Copyright &amp;#x00A9; 2014 Monotype Imaging Inc. All rights reserved.
+ *
+ * © 2020 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import (css) url("//hello.myfonts.net/count/3cd030");
+
+@font-face {
+  font-family: 'HelveticaNeueLTPro-Roman';
+  src: url('webFonts/HelveticaNeueLTPro-Roman/font.woff2') format('woff2'), url('webFonts/HelveticaNeueLTPro-Roman/font.woff') format('woff');
+}
+@font-face {
+  font-family: 'HelveticaNeueLTPro-Lt';
+  src: url('webFonts/HelveticaNeueLTPro-Lt/font.woff2') format('woff2'), url('webFonts/HelveticaNeueLTPro-Lt/font.woff') format('woff');
+}

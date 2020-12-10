@@ -241,8 +241,11 @@ button p {
   margin-bottom: 0;
 }
 
-
 /* Flickity Properties */
+.main-carousel {
+  overflow: hidden;
+}
+
 .main-carousel.ld {
   height: 38.64vw;
   background-color: rgba(250,251,252,1);
@@ -251,6 +254,10 @@ button p {
 #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
   height: 38.64vw;
   overflow: scroll;
+}
+
+.flickity-viewport {
+  overflow: visible !important;
 }
 
 .carousel-cell {
@@ -393,5 +400,8 @@ button p {
   }
   #cc {
     margin-top: 40px;
+  }
+  .flickity-viewport {
+    overflow: hidden !important;
   }
 }
