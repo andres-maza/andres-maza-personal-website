@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   $('.main-carousel').on('ready.flickity', function () {
     $(this).removeClass('ld');
-    //Pause on Scroll
+    //Pause on Scroll Resume After 3s
     $(this).on('scroll', function () {
       $(this).flickity('pausePlayer');
 
