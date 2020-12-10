@@ -25,16 +25,16 @@ body {
 }
 
 body, a, p {
-  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeueLTPro-Roman", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeueLTPro-Lt", "HelveticaNeueLTPro-Roman", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 h1 a {
   color: rgba(0,0,0,1);
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeueLTPro-Lt", "HelveticaNeueLTPro-Roman", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 h1 a:hover {
