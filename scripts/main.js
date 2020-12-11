@@ -65,6 +65,17 @@ document.addEventListener('DOMContentLoaded', function() {
         left: 0,
         behavior: 'smooth'
       });
+
+      $(parentElement[0].children[0].children[0].children).each(function(i, item) {
+        if($(this)[0].className === 'carousel-cell mobile is-selected'){
+          setTimeout(() => {
+            $(parentElement[0]).removeClass('ovrfl-vsble');
+          }, 500);
+        }
+        else {
+          $(parentElement[0]).addClass('ovrfl-vsble');
+        }
+      })
     })
   });
 
