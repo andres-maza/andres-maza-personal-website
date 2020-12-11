@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         behavior: 'smooth'
       });
 
+      //Fix Overflow Getting Cut-Off Issue
       $(parentElement[0].children[0].children[0].children).each(function(i, item) {
         if($(this)[0].className === 'carousel-cell mobile is-selected'){
           setTimeout(() => {
