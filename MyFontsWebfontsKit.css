@@ -22,7 +22,7 @@
 
 
 /* @import must be at top of file, otherwise CSS will not work */
-@import (css) url("//hello.myfonts.net/count/3cd030");
+@import url("//hello.myfonts.net/count/3cd030");
 
 @font-face {
   font-family: 'HelveticaNeueLTPro-Roman';
