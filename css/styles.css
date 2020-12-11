@@ -404,7 +404,7 @@ button p {
   #cc {
     margin-top: 40px;
   }
-  .flickity-viewport {
+  .main-carousel.ovrfl-vsble .flickity-viewport {
     overflow: hidden !important;
   }
 }
