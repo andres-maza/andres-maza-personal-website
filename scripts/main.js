@@ -1,5 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+  // https://stackoverflow.com/a/45822037
+  $(document).ready(function() {
+    $("body").children().each(function() {
+        $(this).html($(this).html().replace(/&#8232;/g," "));
+    });
+  });
+
   // https://stackoverflow.com/a/51121566 (Check % of Element in Viewport is True or False)
   const isElementXPercentInViewport = function(el, percentVisible) {
     let rect = el.getBoundingClientRect(),
