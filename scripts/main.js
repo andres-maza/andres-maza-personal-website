@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // https://stackoverflow.com/a/45822037
   $("body").children().each(function() {
-      $(this).html($(this).html().replace(/&#8232;/g," "));
+      document.body.innerHTML = document.body.innerHTML.replace(/\u2028/g, ' ');
   });
 
   // https://stackoverflow.com/a/51121566 (Check % of Element in Viewport is True or False)
