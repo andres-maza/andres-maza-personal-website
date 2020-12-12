@@ -2,6 +2,10 @@
   text-rendering: geometricPrecision;
 }
 
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 a[name="top"] {
   position: absolute;
   top: 0;
@@ -22,7 +26,6 @@ body {
   background-color: rgba(255,255,255,1);
   font-size: 20px;
   color: rgba(0,0,0,1);
-  -ms-overflow-style: none;
 }
 
 body, a, p {
