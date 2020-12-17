@@ -71,16 +71,13 @@ document.addEventListener('DOMContentLoaded', function() {
         behavior: 'smooth'
       });
 
-      //Fix Overflow Getting Cut-Off Issue
+      //On Change Visible Overflow then 500ms Back to Hidden
       $(parentElement[0].children[0].children[0].children).each(function(i, item) {
-        if($(this)[0].className === 'carousel-cell mobile is-selected'){
-          setTimeout(() => {
-            $(parentElement[0]).removeClass('ovrfl-vsble');
-          }, 500);
-        }
-        else {
-          $(parentElement[0]).addClass('ovrfl-vsble');
-        }
+        $(parentElement[0]).addClass('ovrfl-vsble');
+
+        setTimeout(() => {
+          $(parentElement[0]).removeClass('ovrfl-vsble');
+        }, 500)
       })
     })
   });

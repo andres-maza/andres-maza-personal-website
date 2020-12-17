@@ -73,10 +73,6 @@ button p {
   margin: 0;
 }
 
-/* .expand_btn {
-  display: none;
-} */
-
 .container {
   max-width: 100%;
   height: auto;
@@ -258,8 +254,12 @@ button p {
   height: 38.64vw;
 }
 
-#ancient-foods .main-carousel.ovrfl-vsble, #dailypay .main-carousel.ovrfl-vsble, #arlo .main-carousel.ovrfl-vsble {
+#ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
   overflow: scroll;
+}
+
+.main-carousel .flickity-viewport {
+  overflow: hidden;
 }
 
 .main-carousel.ovrfl-vsble .flickity-viewport {
