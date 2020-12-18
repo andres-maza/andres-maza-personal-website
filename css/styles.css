@@ -254,16 +254,8 @@ button p {
   height: 38.64vw;
 }
 
-#ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
+#ancient-foods .main-carousel.is-scroll, #dailypay .main-carousel.is-scroll, #arlo .main-carousel.is-scroll {
   overflow: scroll;
-}
-
-.main-carousel .flickity-viewport {
-  overflow: hidden;
-}
-
-.main-carousel.ovrfl-vsble .flickity-viewport {
-  overflow: visible !important;
 }
 
 .carousel-cell {
@@ -272,6 +264,12 @@ button p {
 
 .carousel-cell img {
   width: 100%;
+}
+
+@media (min-width: 450px) {
+  .main-carousel.is-overflow-visible .flickity-viewport {
+    overflow: visible !important;
+  }
 }
 
 
@@ -406,8 +404,5 @@ button p {
   }
   #cc {
     margin-top: 40px;
-  }
-  .main-carousel.ovrfl-vsble .flickity-viewport {
-    overflow: hidden !important;
   }
 }

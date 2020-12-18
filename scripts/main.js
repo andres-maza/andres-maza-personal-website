@@ -73,33 +73,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
       //On Change Visible Overflow then 500ms Back to Hidden
       $(parentElement[0].children[0].children[0].children).each(function(i, item) {
-        $(parentElement[0]).addClass('ovrfl-vsble');
+        if (item.className === 'carousel-cell mobile is-selected') {
+          $(parentElement).addClass('is-overflow-visible');
+          $(parentElement).removeClass('is-scroll');
 
-        setTimeout(() => {
-          $(parentElement[0]).removeClass('ovrfl-vsble');
-        }, 500)
+          setTimeout(() => {
+            $(parentElement).removeClass('is-overflow-visible');
+            $(parentElement).addClass('is-scroll');
+          }, 2000)
+        }
       })
     })
   });
 
   $('.main-carousel').on('ready.flickity', function () {
     $(this).removeClass('ld');
-    //Pause on Scroll Resume After 3s
-    $(this).on('scroll', function () {
-      $(this).flickity('pausePlayer');
-
-      setTimeout( () => {
-        $(this).flickity('playPlayer');
-      }, 3000)
-    });
-
-    //Resume on Mouse Leave
-    $(this).on('mouseleave', function() {
-      setTimeout( () => {
-        $(this).flickity('playPlayer');
-      }, 1000)
-    });
-
     //Pause on Touch Start
     $(this).on('touchstart', function() {
       $(this).flickity('pausePlayer');
@@ -115,8 +103,23 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout( () => {
         $(this).flickity('playPlayer');
       }, 1000)
-    })
+    });
 
+    //Resume on Mouse Leave
+    $(this).on('mouseleave', function() {
+      setTimeout( () => {
+        $(this).flickity('playPlayer');
+      }, 1000)
+    });
+
+    //Pause on Scroll Resume After 3s
+    $(this).on('scroll', function () {
+      $(this).flickity('pausePlayer');
+
+      setTimeout( () => {
+        $(this).flickity('playPlayer');
+      }, 3000)
+    });
   });
 
   // If Flickity on ViewPort then PlayPlayer, else PausePlayer
