@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital@0;1&display=swap');
+
+.vm-text {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: inherit;
+}
+
+.vm-text, .vm-text a {
+  text-align: center;
+  color: rgba(255,255,255,.8);
+}
+
+.vm-text span {
+  width: 60%;
+}
+
+#vm-product {
+  position: relative;
+}
+
 * {
   text-rendering: geometricPrecision;
 }
@@ -23,34 +47,35 @@ img.fd {
 }
 
 body {
-  background-color: rgba(255,255,255,1);
+  background-color: rgba(92,255,167,1);
   font-size: 20px;
   color: rgba(0,0,0,1);
 }
 
 body, a, p {
-  font-family: "HelveticaNeueLTPro-Roman", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "Lora", serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "HelveticaNeueLTPro-Lt", "HelveticaNeueLTPro-Roman", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "Lora", serif;
 }
 
 h1 a {
-  color: rgba(0,0,0,1);
+  color: rgba(30,60,52,1);
 }
 
 h1 a:hover {
-  color: rgba(0,0,0,.6) !important;
+  color: rgba(30,60,52,.6) !important;
 }
 
 a {
-  color: rgba(37,77,255,1);
+  color: rgba(0,0,0,1);
+  font-style: italic;
   transition: color 150ms ease-in-out;
 }
 
 a:hover {
-  color: rgba(37,77,255,.6);
+  color: rgba(30,60,52,1)
 }
 
 button {
@@ -80,14 +105,15 @@ button p {
 }
 
 .main-title {
-  font-size: 54px;
-  font-weight: 300;
+  font-size: 72px;
+  font-weight: 400;
 }
 
 
 .main-title a {
-  font-family: "HelveticaNeueLTPro-Lt", "HelveticaNeueLTPro-Roman", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 300 !important;
+  font-family: "Lora", serif;
+  font-weight: 400 !important;
+  font-style: italic;
 }
 
 .secondary-text {
@@ -121,6 +147,7 @@ button p {
 
 #hp__main-content {
   display: flex;
+  flex-direction: column;
 }
 
 #hp__main-content ul {
@@ -166,12 +193,12 @@ button p {
 }
 
 #intro {
-  max-width: 40%;
-  min-width: 40%;
-  height: 100vh;
+  max-width: 100%;
+  /* height: 100vh; */
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
+  margin-bottom: 3rem;
 }
 
 #intro h1.main-title {
@@ -179,6 +206,7 @@ button p {
   padding-bottom: 60px;
   padding-right: 40px;
   margin: 0;
+  color: rgba(30,60,52,1);
 }
 
 #intro__container {
@@ -188,6 +216,8 @@ button p {
 
 #recent-work {
   width: 60%;
+  margin: 0 auto;
+  z-index: 2;
 }
 
 .scroll-cta {
@@ -243,10 +273,7 @@ button p {
 /* Flickity Properties */
 .main-carousel {
   overflow: hidden;
-}
-
-.main-carousel.ld {
-  height: 38.64vw;
+  height: 36.84vw;
   background-color: rgba(250,251,252,1);
 }
 
@@ -295,13 +322,13 @@ button p {
     width: 80%;
     height: auto;
     position: relative;
-    margin-bottom: 60px;
   }
   #recent-work {
     width: auto;
   }
-  #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
-    height: 61.34vw;
+  .main-carousel, #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
+    height: 59.64vw;
+    /* height: 61.34vw; */
   }
 }
 
@@ -333,7 +360,12 @@ button p {
     font-size: 9.75vw;
   }
   #hp__main-navigation {
+    flex-direction: column;
+    align-items: flex-start;
     margin: 24px 20px;
+  }
+  #hp__main-navigation span {
+    margin-bottom: 8px;
   }
   #intro {
     width: auto;
@@ -343,6 +375,7 @@ button p {
     padding-bottom: 44px;
   }
   #hp__main-content .cs__context {
+    flex-direction: column;
     padding: 40px 20px 20px 20px;
     margin-bottom: 0;
   }
@@ -353,7 +386,8 @@ button p {
     vertical-align: bottom;
   }
   .cs__context span:first-child {
-    max-width: 60%;
+    max-width: 100%;
+    margin-bottom: 8px;
   }
   #ancient-foods .cs__context, #dailypay .cs__context, #arlo .cs__context {
     flex-direction: column;
@@ -363,7 +397,7 @@ button p {
   }
   .scroll-cta {
     width: 100%;
-    margin-top: 28px;
+    white-space: nowrap;
   }
   .scroll-cta:after {
     display: block;
@@ -399,8 +433,8 @@ button p {
   #footer {
     margin: 0px 20px 40px 20px;
   }
-  #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
-    height: 69.10vw;
+  .main-carousel, #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
+    height: 69vw !important;
   }
   #cc {
     margin-top: 40px;

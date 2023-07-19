@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     )
   };
 
-  // https://stackoverflow.com/a/7717572 Smooht Scrolling w/ URL update
+  // https://stackoverflow.com/a/7717572 Smooth Scrolling w/ URL update
   $('a[href^="#"]').click(function () {
     $('html, body').animate({
         scrollTop: $('[name="' + $.attr(this, 'href').substr(1) + '"]').offset().top
