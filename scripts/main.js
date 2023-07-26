@@ -1,5 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+
+  $(document).on('scroll', function() {
+    let scrollValue = $(this).scrollTop();
+    let windowWidth = $(window).width();
+
+    if (windowWidth > 375) {
+      if (scrollValue > 175) {
+        $('#intro').css({
+          'opacity': '0.1'
+        })
+      } else if (scrollValue < 175) {
+        $('#intro').css({
+          'opacity': '1'
+        })
+      }
+    }
+  });
+
   // https://stackoverflow.com/a/45822037
   $("body").children().each(function() {
       document.body.innerHTML = document.body.innerHTML.replace(/\u2028/g, ' ');
