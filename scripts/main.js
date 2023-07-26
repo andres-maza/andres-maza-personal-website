@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let scrollValue = $(this).scrollTop();
     let windowWidth = $(window).width();
 
-    if (windowWidth > 375) {
+    if (windowWidth > 430) {
       if (scrollValue > 175) {
         $('#intro').css({
           'opacity': '0.1'
