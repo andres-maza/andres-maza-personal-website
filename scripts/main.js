@@ -7,12 +7,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (windowWidth > 430) {
       if (scrollValue > 175) {
-        $('#intro').css({
-          'opacity': '0.1'
+        // $('#intro').css({
+        //   'opacity': '1'
+        // })
+        // $('body').css({
+        //   'background-color': 'rgba(46,18,40,1)',
+        //   'color': 'rgba(249,245,236,1)'
+        // })
+        // $('#intro h1.main-title').css({
+        //   'color': 'rgba(86,49,116,1)'
+        // })
+        // $('.cs__context a').css({
+        //   'color': 'rgba(249,245,236,1)'
+        // })
+        $('#recent-work').css({
+          'scale': '1.125',
+          'margin-bottom': '15em'
         })
       } else if (scrollValue < 175) {
-        $('#intro').css({
-          'opacity': '1'
+        // $('#intro').css({
+        //   'opacity': '1',
+        //   'color': 'rgba(0,0,0,1)'
+        // })
+        // $('body').css({
+        //   'background-color': 'rgba(92,255,167,1)',
+        //   'color': 'rgba(0,0,0,1)'
+        // })
+        // $('#intro h1.main-title').css({
+        //   'color': 'rgba(30,60,52,1)'
+        // })
+        // $('.cs__context a').css({
+        //   'color': 'rgba(0,0,0,1)'
+        // })
+        $('#recent-work').css({
+          'scale': '1'
         })
       }
     }

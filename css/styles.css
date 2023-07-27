@@ -57,13 +57,18 @@ img.fd {
 
 body {
   background-color: rgba(92,255,167,1);
+  font-family: "Lora", serif;
   font-size: 20px;
   color: rgba(0,0,0,1);
+  transition-property: background-color;
+  transition-duration: 0.5s;
 }
 
-body, a, p {
-  font-family: "Lora", serif;
+a, p {
+  transition-property: color;
+  transition-duration: 0.25s;
 }
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Lora", serif;
@@ -114,7 +119,7 @@ button p {
 }
 
 .main-title {
-  font-size: 72px;
+  font-size: 74px;
   font-weight: 400;
 }
 
@@ -217,6 +222,8 @@ button p {
   padding-right: 40px;
   margin: 0;
   color: rgba(30,60,52,1);
+  transition-property: color;
+  transition-duration: 0.5s;
 }
 
 #intro__container {
@@ -228,6 +235,9 @@ button p {
   width: 60%;
   margin: 0 auto;
   z-index: 2;
+  transition-property: scale;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(.28,.94,.79,1.01);
 }
 
 .scroll-cta {
