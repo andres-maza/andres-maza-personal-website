@@ -25,6 +25,7 @@
 
 .vm-text span {
   width: 60%;
+  max-width: 600px;
 }
 
 #vm-product {
@@ -235,8 +236,8 @@ button p {
   width: 60%;
   margin: 0 auto;
   z-index: 2;
-  transition-property: scale;
-  transition-duration: 0.5s;
+  transition-property: width;
+  transition-duration: 0.35s;
   transition-timing-function: cubic-bezier(.28,.94,.79,1.01);
 }
 
@@ -295,6 +296,9 @@ button p {
   overflow: hidden;
   height: 36.84vw;
   background-color: rgba(250,251,252,1);
+  transition-property: height;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(.28,.94,.79,1.01);
 }
 
 #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
@@ -454,7 +458,7 @@ button p {
     margin: 0px 20px 40px 20px;
   }
   .main-carousel, #ancient-foods .main-carousel, #dailypay .main-carousel, #arlo .main-carousel {
-    height: 69vw !important;
+    height: 68.9vw !important;
   }
   #cc {
     margin-top: 40px;
