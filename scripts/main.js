@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'overflow': 'hidden'
       });
       $('.main-carousel').flickity('resize');
+      return;
     }
   });
 
