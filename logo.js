@@ -17,9 +17,7 @@
 
   const SPREAD = Math.floor(colors.length / rects.length);
   let mouseX = 0;
-  let timeIndex = 0;
   let intervalId = null;
-  let orientationActive = false;
   let lastOrientationUpdate = 0;
 
   function isMobile() {
@@ -33,88 +31,77 @@
     });
   }
 
-  // Maps device orientation angles to a color base index
+  // ── Mobile: orientation ──────────────────────────────────────────
   function handleOrientation(e) {
+    if (!isMobile()) return;
     const now = Date.now();
     if (now - lastOrientationUpdate < 100) return;
     lastOrientationUpdate = now;
 
-    const gamma = e.gamma || 0; // left/right tilt: -90 to 90
-    const beta  = e.beta  || 0; // front/back tilt: -180 to 180
-
-    const x = (gamma + 90)  / 180; // 0 to 1
-    const y = (beta  + 180) / 360; // 0 to 1
-    const base = Math.floor((x + y) * colors.length) % colors.length;
-    applyColors(base);
+    const x = ((e.gamma || 0) + 90)  / 180;
+    const y = ((e.beta  || 0) + 180) / 360;
+    applyColors(Math.floor((x + y) * colors.length) % colors.length);
   }
 
-  function setupOrientation() {
-    if (typeof DeviceOrientationEvent === 'undefined') return false;
+  function handleMobileScroll() {
+    if (!isMobile()) return;
+    const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight) || 0;
+    applyColors(Math.floor(scrollProgress * colors.length) % colors.length);
+  }
+
+  function setupMobile() {
+    if (typeof DeviceOrientationEvent === 'undefined') return;
 
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-      // iOS 13+ — needs a user gesture to request permission
+      // iOS 13+ — request on first tap
       document.addEventListener('touchstart', function askPermission() {
-        document.removeEventListener('touchstart', askPermission);
         DeviceOrientationEvent.requestPermission()
           .then(function (state) {
             if (state === 'granted') {
-              orientationActive = true;
               window.addEventListener('deviceorientation', handleOrientation);
             }
-            // If denied, the time-based interval already running is the fallback
           })
-          .catch(function () { /* stay on time-based fallback */ });
+          .catch(function () {});
       }, { once: true });
-      return true; // optimistically assume it'll work
     } else {
-      // Android / non-restricted browsers — just attach directly
-      window.addEventListener('deviceorientation', function (e) {
-        if (e.gamma !== null && e.beta !== null) {
-          orientationActive = true;
-          handleOrientation(e);
-        }
-      });
-      return true;
+      window.addEventListener('deviceorientation', handleOrientation);
     }
+
+    window.addEventListener('scroll', handleMobileScroll);
   }
 
-  function startInterval() {
+  // ── Desktop: mouse + scroll via interval ────────────────────────
+  function startDesktopInterval() {
     if (intervalId) clearInterval(intervalId);
-    const ms = isMobile() ? 300 : 100;
     intervalId = setInterval(function () {
-      if (isMobile()) {
-        if (!orientationActive) {
-          // Fallback: time-based cycling
-          timeIndex = (timeIndex + 1) % colors.length;
-          applyColors(timeIndex);
-        }
-        // If orientationActive, handleOrientation drives the colors directly
-      } else {
-        const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight) || 0;
-        const base = Math.floor((mouseX + scrollProgress) * colors.length) % colors.length;
-        applyColors(base);
-      }
-    }, ms);
-  }
-
-  // Start immediately on mobile
-  if (isMobile()) {
-    setupOrientation();
-    startInterval();
+      if (isMobile()) return;
+      const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight) || 0;
+      const base = Math.floor((mouseX + scrollProgress) * colors.length) % colors.length;
+      applyColors(base);
+    }, 100);
   }
 
   document.addEventListener('mousemove', function (e) {
+    if (isMobile()) return;
     mouseX = e.clientX / window.innerWidth;
-    if (!intervalId) startInterval();
+    if (!intervalId) startDesktopInterval();
   });
 
   window.addEventListener('scroll', function () {
-    if (!intervalId) startInterval();
+    if (!isMobile() && !intervalId) startDesktopInterval();
   });
 
-  // Restart with correct timing when crossing the breakpoint
+  // ── Init ─────────────────────────────────────────────────────────
+  if (isMobile()) {
+    setupMobile();
+  }
+
   window.addEventListener('resize', function () {
-    if (intervalId) startInterval();
-    if (isMobile()) setupOrientation();
+    if (isMobile()) {
+      if (intervalId) { clearInterval(intervalId); intervalId = null; }
+      setupMobile();
+    } else {
+      if (intervalId) startDesktopInterval();
+    }
   });
 })();
