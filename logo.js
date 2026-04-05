@@ -31,7 +31,6 @@
   const SPREAD = Math.floor(colors.length / rects.length);
   let mouseX = 0;
   let intervalId = null;
-  let lastOrientationUpdate = 0;
 
   function isMobile() {
     return window.innerWidth <= 600;
@@ -44,18 +43,7 @@
     });
   }
 
-  // ── Mobile: orientation ──────────────────────────────────────────
-  function handleOrientation(e) {
-    if (!isMobile()) return;
-    const now = Date.now();
-    if (now - lastOrientationUpdate < 100) return;
-    lastOrientationUpdate = now;
-
-    const x = ((e.gamma || 0) + 90)  / 180;
-    const y = ((e.beta  || 0) + 180) / 360;
-    applyColors(Math.floor((x + y) * colors.length) % colors.length);
-  }
-
+  // ── Mobile: scroll only ──────────────────────────────────────────
   function handleMobileScroll() {
     if (!isMobile()) return;
     const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight) || 0;
@@ -63,23 +51,6 @@
   }
 
   function setupMobile() {
-    if (typeof DeviceOrientationEvent === 'undefined') return;
-
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-      // iOS 13+ — request on first tap
-      document.addEventListener('touchstart', function askPermission() {
-        DeviceOrientationEvent.requestPermission()
-          .then(function (state) {
-            if (state === 'granted') {
-              window.addEventListener('deviceorientation', handleOrientation);
-            }
-          })
-          .catch(function () {});
-      }, { once: true });
-    } else {
-      window.addEventListener('deviceorientation', handleOrientation);
-    }
-
     window.addEventListener('scroll', handleMobileScroll);
   }
 
