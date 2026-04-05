@@ -29,7 +29,7 @@ body {
 
 .page {
   display: flex;
-  gap: 38px;
+  gap: 80px;
   padding: 38px 38px 64px;
 }
 
@@ -150,7 +150,7 @@ body {
 @media (max-width: 600px) {
   .page {
     flex-direction: column;
-    gap: 32px;
+    gap: 38px;
     padding: 38px 38px 64px;
   }
 
