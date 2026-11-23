@@ -5,88 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Andres Maza</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤙</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@350..400&display=swap" />
+  <!-- Faces for the name scramble (name.js), subset to its few characters -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:ital,wght@0,400;1,400&family=Instrument+Serif:ital@0;1&family=Pixelify+Sans&text=AaNnDdRrEeSs4%40%CE%9B%D0%98%C5%8B%C3%B0%C3%90%D0%AF%CA%803%C9%99%E2%82%AC5%24%CA%83&display=swap" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="page">
+  <div class="home">
 
-    <!-- Logo -->
-    <aside class="logo-sidebar">
-      <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Blue vertical -->
-        <rect x="19" y="0" width="2" height="20" fill="#1c00f0" />
-        <!-- Blue diagonal 135° -->
-        <rect x="-8.005" y="-1" width="16.01" height="2" fill="#1c00f0"
-          transform="translate(29.37,13.05) rotate(135)" />
-        <!-- Pink bar -->
-        <rect x="23" y="18" width="17" height="2" fill="#ff9291" />
-        <!-- Blue diagonal 45° -->
-        <rect x="-7.886" y="-1" width="15.771" height="2" fill="#1c00f0"
-          transform="translate(10.71,13.13) rotate(45)" />
-        <!-- Orange bar -->
-        <rect x="0" y="18" width="17" height="2" fill="#e15826" />
-      </svg>
-    </aside>
+    <!-- Top row: contact links -->
+    <header class="topbar">
+      <nav class="navlinks" aria-label="Contact">
+        <a href="https://linkedin.com/in/andres-maza" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/andres-maza" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </nav>
+    </header>
 
-    <!-- Main content -->
-    <main class="contents">
-
-      <!-- Bio -->
-      <div class="bio">
-        <p>Hey there, I'm Andres.<br /><br />I'm a designer who got my start building brands, first in print, then helping them find their voice on the web. Long before that, I was a kid who couldn't stay away from computers. That curiosity never left. Today I focus on digital experiences, websites, tools, and the craft behind them. I mostly design, sometimes code, always pursuing the best possible result.</p>
-        <p>&nbsp;</p>
-        <p>Currently, I'm at <a href="https://www.betterment.com" target="_blank" rel="noopener noreferrer">Betterment</a>, helping lead design for our advisor solutions platform, taking the institutional paper processes RIAs deal with every day and turning them into something modern and intuitive.</p>
-        <p>&nbsp;</p>
-        <p>I'm based out Brooklyn, NY.</p>
-      </div>
-
-      <!-- Carousel -->
-      <section class="carousel-section" aria-label="Work samples">
-        <p class="carousel-label">A selection of past and present work.</p>
-        <div class="carousel-viewport">
-          <div class="carousel-track" id="carousel-track">
-            <div class="carousel-card">
-              <img src="images/betterment-1.png" alt="Betterment project" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/vm-1.png" alt="Vidmob" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/vm-3.png" alt="Vidmob" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/vm-2.png" alt="Vidmob" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/af-1.png" alt="Ancient Foods" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/arlo-1.png" alt="Arlo" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/arlo-2.png" alt="Arlo" />
-            </div>
-            <div class="carousel-card">
-              <img src="images/ccruz-1.png" alt="Celia Cruz" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="footer">
-        <p>Contact</p>
-        <p>E-mail: <a href="mailto:hello@andresmaza.com">hello@andresmaza.com</a></p>
-        <p>LinkedIn: <a href="https://linkedin.com/in/andres-maza" target="_blank" rel="noopener noreferrer">/in/andres-maza</a></p>
-        <p>GitHub: <a href="https://github.com/andres-maza" target="_blank" rel="noopener noreferrer">/andres-maza</a></p>
-        <p>Dribbble: <a href="https://dribbble.com/andresmaza" target="_blank" rel="noopener noreferrer">/andresmaza</a></p>
-      </footer>
-
+    <main class="bio">
+      <p>Hey there, I’m <mark data-scramble="load">Andres</mark>, a&nbsp;designer based in Brooklyn, NY. I&nbsp;focus on digital experiences, websites, tools, and the craft behind them, designing them and, more and more, coding them too, these days mostly as working prototypes. Before that, I&nbsp;helped brands find their voice, first in print, then on the web. Long before that, I&nbsp;was the kid who couldn’t stay away from computers. That curiosity has never left.</p>
+      <p>Currently, I&nbsp;work as a&nbsp;Staff Product Designer at <a href="https://www.betterment.com" target="_blank" rel="noopener noreferrer">Betterment</a>, helping lead our advisor platform, turning the paperwork processes financial advisors deal with every day into software that’s simple to use.</p>
     </main>
+
+    <!-- Work: a strip of slides; the next one peeks in. Scroll sideways, click a slide, or use Previous / Next -->
+    <section class="reel" aria-label="Selected work">
+      <p class="reel-label">A selection of past and present work.</p>
+      <div class="reel-frame" tabindex="0" aria-label="Work, scroll sideways">
+        <img src="images/betterment-1.png" alt="Betterment advisor platform" data-name="Betterment" />
+        <img src="images/vm-1.png" alt="Vidmob" data-name="Vidmob" loading="lazy" />
+        <img src="images/vm-3.png" alt="Vidmob" data-name="Vidmob" loading="lazy" />
+        <img src="images/vm-2.png" alt="Vidmob" data-name="Vidmob" loading="lazy" />
+        <img src="images/af-1.png" alt="Ancient Foods" data-name="Ancient Foods" loading="lazy" />
+        <img src="images/arlo-1.png" alt="Arlo" data-name="Arlo" loading="lazy" />
+        <img src="images/arlo-2.png" alt="Arlo" data-name="Arlo" loading="lazy" />
+        <img src="images/ccruz-1.png" alt="Celia Cruz" data-name="Celia Cruz" loading="lazy" />
+      </div>
+      <div class="reel-bar">
+        <span class="caption" aria-live="polite"></span>
+        <nav aria-label="Work"><a href="#" data-step="-1" aria-label="Previous"><span class="long">Previous</span><span class="short" aria-hidden="true">Prv</span></a><a href="#" data-step="1" aria-label="Next"><span class="long">Next</span><span class="short" aria-hidden="true">Nxt</span></a></nav>
+      </div>
+    </section>
+
+    <footer class="contact">
+      <!-- The wordmark, right edge on the reel bar’s line: scrambles each time you reach the bottom, and as the pointer moves -->
+      <p class="wordmark-end"><span class="muted">©&nbsp;<span data-year>2026</span></span>&nbsp;<span data-scramble="bottom">Andres</span></p>
+    </footer>
+
   </div>
 
   <script src="carousel.js"></script>
-  <script src="logo.js"></script>
-  <script src="images.js"></script>
+  <script src="name.js"></script>
+  <script>document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });</script>
 </body>
 </html>

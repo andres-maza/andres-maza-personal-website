@@ -5,162 +5,416 @@
 }
 
 :root {
-  --bg: #000;
-  --fg: #EFEBEB;
-  --card-bg: #111;
+  /* Dark (default): true black. Text is dimmed a step because bright text glows most on pure black. */
+  --bg: #000000;
+  --fg: #D6D6D6;
+  --card-bg: #111112;
+  --rule: rgba(214, 214, 214, 0.16);
+  --logo: var(--fg);   /* brand colour = ink: the logo and links share the text colour */
+  /* Light text on dark looks heavier (irradiation); 350 matches the perceived weight of 400 on light. */
+  --weight: 350;
+
+  /* Type: one family (Geist), one weight, three sizes on one modular scale (Bringhurst):
+     the golden section, 1 : 1.618, from the body size.
+     Desktop 14 · 23 · 37   Phone 13 · 20 · 32 */
+  --ratio: 1.618;
+  --font: 'Geist', 'Helvetica Neue', Arial, sans-serif;   /* one family for everything */
+  --text-m: 23px;   /* everything you read, including labels */
+  --lh-m: calc(28 / 23);   /* 28px (≈1.22): the unit; splits into whole 7 · 14 · 28 · 56 */
+  --track-m: 0.02em;   /* ≈0.5px: a touch of air for Geist at text sizes (a deliberate exception to Bringhurst's 'don't letterspace lowercase') */
+  --text-l: round(calc(var(--text-m) * var(--ratio)), 1px);   /* case study titles: one step up */
+  --lh-l: 1.02;
+  --track-l: -0.025em;                     /* display sizes can take tightening */
+  --text-s: max(13px, round(calc(var(--text-m) / var(--ratio)), 1px));  /* captions, credits: one step down; 13px floor on phones */
+  --text-sm: round(calc(var(--text-m) / sqrt(var(--ratio))), 1px);  /* small body: a half step down (double-stranded scale) */
+  --lh-s: 1.4;
+  --muted: 0.55;   /* #767676 on black: 4.6:1 */
+
+  /* Vertical rhythm: every vertical space is a multiple of one line of body text. */
+  --unit: calc(var(--text-m) * var(--lh-m));   /* 28px desktop, 24px mobile: ½ = 14/12, ¼ = 7/6 */
+
+  /* Everything else is built from the same unit: margins, gaps, widths, radii. */
+  --u2: calc(var(--unit) / 2);       /* tight gaps */
+  --u4: calc(var(--unit) / 4);       /* small nudges, input padding */
+  --gutter: var(--unit);             /* page side margins */
+  --radius: var(--u4);               /* the one corner radius */
+  --wrap: calc(var(--unit) * 32);    /* widest content: 896px desktop */
+  --logo-stage: calc(var(--unit) * 6); /* how far the logo's spokes may walk on hover, from the mark's left edge: 168px desktop */
+
+  /* Reading measure: grows with the window like RAN's columns, capped under
+     Bringhurst's 75-character limit; never narrower than ~22em unless the screen is. */
+  --measure: clamp(min(100%, calc(var(--text-m) * 25)), 54vw, calc(var(--text-m) * 32.5));   /* ~54% of the window; cap keeps full lines ≤ 75 characters */
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --bg: #FFFDF7;
-    --fg: #2B2424;
-    --card-bg: #D5D2CE;
+    /* One flat field: pure white, near-black ink (18.9:1, calmer than pure black). */
+    --bg: #FFFFFF;
+    --fg: #111111;
+    --card-bg: #EDEDED;
+    --rule: rgba(17, 17, 17, 0.2);
+    --weight: 400;
+    --muted: 0.6;   /* grey ≥ 4.5:1 on white (5.0:1) */
   }
 }
 
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: Arial, sans-serif;
+  font-family: var(--font);
+  font-weight: var(--weight);
+  font-size: var(--text-m);
+  line-height: var(--lh-m);
+  letter-spacing: var(--track-m);
   min-height: 100vh;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* No lonely last words; even line lengths in headings. */
+p { text-wrap: pretty; }
+h1, h2 { text-wrap: balance; }
+
+/* Links are raw hypertext: ink, underlined; the underline thickens on hover. */
+a {
+  color: var(--logo);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-skip-ink: auto;
+}
+a:hover { text-decoration-thickness: 2px; }
+
 .page {
   display: flex;
-  gap: 80px;
-  padding: 38px 38px 64px;
+  gap: calc(var(--unit) * 2);
+  padding: var(--unit) var(--gutter) calc(var(--unit) * 2);
 }
 
 /* ── Logo ── */
 .logo-sidebar {
   flex-shrink: 0;
-  width: 38.447px;
   position: sticky;
-  top: 38px;
+  top: var(--unit);
   align-self: flex-start;
+  line-height: var(--lh-m);   /* same line box as the first line of text */
 }
 
+/* The mark is set like a character, sitting on the baseline: cap height × 4/3
+   (a perfect fourth on Bringhurst's musical scale above the capitals). */
 .logo-sidebar svg {
-  display: block;
+  color: var(--logo);   /* the mark rests in the signature blue (fill="currentColor") */
+  display: inline-block;
+  vertical-align: baseline;
+  height: calc(0.7em * 4 / 3);   /* fallback */
+  height: calc(1cap * 4 / 3);
+  /* Only one cap height counts towards the line box, so the taller mark can't push the
+     line (and its baseline) down; the rest overflows upward. */
+  margin-top: calc(1cap * (1 - 4 / 3));
+  width: auto;
+  overflow: hidden;   /* half a spinner: spokes only show in the mark's own top half */
+}
+
+/* Logo intro: the spokes spin around the mark's centre point (see logo-intro.js). */
+.logo-intro .logo-sidebar .spoke { opacity: 0; }   /* hidden until the page-load tick */
+.logo-sidebar .spoke,
+.logo-sidebar .lean {
+  transform-box: view-box;
+  transform-origin: 20px 19px;
 }
 
 /* ── Main content ── */
 .contents {
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: calc(var(--unit) * 2);
   min-width: 0;
   flex: 1;
 }
 
 /* ── Bio ── */
 .bio {
-  max-width: 740px;
-  font-size: 20px;
-  line-height: 30px;
+  max-width: var(--measure);
   color: var(--fg);
 }
 
-.bio p {
-  margin: 0;
+.bio p + p {
+  margin-top: var(--unit);   /* one blank line between paragraphs */
 }
 
-.bio a {
-  color: var(--fg);
-  text-decoration: underline;
-  text-decoration-skip-ink: none;
+/* ── Section label (shared) ── */
+.section-label {
+  opacity: var(--muted);
 }
 
-.bio a:hover {
-  opacity: 0.75;
-}
-
-/* ── Carousel ── */
-.carousel-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  max-width: 1000px;
-}
-
-.carousel-label {
-  font-size: 16px;
-  line-height: normal;
-  opacity: 0.6;
-  white-space: nowrap;
-}
-
-.carousel-viewport {
-  width: 100%;
-  aspect-ratio: 5 / 3;
-  border-radius: 12px;
-  overflow: hidden;
+/* ── Homepage: the whole window is the grid ──
+   6 equal columns edge to edge, each split in two (12 half columns, same gaps) so
+   things can end on a half column. Logo on its own row, everything starts at column 1. */
+.home {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--u2);
+  padding: var(--unit) var(--gutter) calc(var(--unit) * 3);
   position: relative;
 }
 
-.carousel-track {
-  display: flex;
-  height: 100%;
-  transform: translateX(0);
+/* Logo: one step up from the case-study pages' mark: cap height × 3/2 (a perfect fifth).
+   Its cell (3 columns) is also the stage the spokes walk on when hovered. */
+.home > .logo-sidebar { grid-column: 1 / span 6; grid-row: 1; position: static; margin-bottom: calc(var(--unit) * 2); }
+.home .logo-sidebar svg { height: calc(1cap * 3 / 2); margin-top: calc(1cap * (1 - 3 / 2)); }
+
+/* Bio: 3 of 6 columns. */
+.home .bio { grid-column: 1 / span 6; grid-row: 2; max-width: none; }
+
+/* The name in the bio is a <mark> (name.js scrambles it). For now it's set plain, like
+   the text around it. The ink-block emphasis, to bring back:
+     background: var(--fg); color: var(--bg); padding-inline: 0.15em; margin-inline: -0.15em;
+     box-decoration-break: clone; */
+mark {
+  background: none;
+  color: inherit;
 }
 
-.carousel-card {
-  flex: none;
+/* The name's letters while they scramble (name.js): each holds its own width as set
+   (name.js sets it) and adds nothing to the line height, whatever font it's in. */
+[data-scramble] .name-ch {
+  display: inline-block;
+  line-height: 0;
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Top row: plain links on the first line, contact (LinkedIn, GitHub) on the left and
+   Case studies on the right; one blank line, then the bio. Muted, full ink on hover. */
+.topbar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;   /* narrow phones (< ~384px): Case studies drops to a second line, still right */
+  justify-content: space-between;
+  gap: var(--unit);
+  margin-bottom: var(--unit);
+}
+.navlinks { display: flex; gap: var(--unit); }
+.navlinks a { white-space: nowrap; }
+.topbar .navlinks + .navlinks { margin-left: auto; }   /* a second group goes right; a lone group stays left */
+/* Icons beside text are drawn with a 2px line whatever their size, close to the text’s stems. */
+.work-lock svg * { stroke-width: 2px; vector-effect: non-scaling-stroke; }
+.navlinks a { color: var(--fg); opacity: var(--muted); transition: opacity 0.2s ease; }
+.navlinks a:hover, .navlinks a:focus-visible { opacity: 1; }
+
+/* Work: a strip of slides. Each slide is 4 of the 6 columns (one wider than the bio),
+   starting at column 1; the strip runs past the right gutter to the window's edge, so the
+   next slide peeks in (about half of it on a wide screen). Scrolls sideways freely (swipe,
+   trackpad) and loops with no ends (carousel.js); Previous / Next and clicking a slide
+   bring a slide to the front. No auto-advance. The label and the
+   bar keep to the slide's width. */
+.reel { grid-column: 1 / -1; grid-row: 3; margin-top: calc(var(--unit) * 3); container-type: inline-size; }   /* shares its row with the footer (bottom right) */
+.reel { --slide: calc((100cqw - 11 * var(--u2)) * 8 / 12 + 7 * var(--u2)); }   /* 8 of 12 half columns */
+.reel-label { opacity: var(--muted); margin-bottom: var(--u2); }   /* the same half line above the image as the bar below */
+.reel-frame {
+  display: flex;
+  gap: var(--unit);                                 /* one line between slides */
+  margin-right: calc(var(--gutter) * -1);           /* bleed to the window's edge */
+  overflow-x: auto;
+  scroll-behavior: smooth;   /* for the Previous / Next / click steps; hand scrolling stays free */
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.reel-frame::-webkit-scrollbar { display: none; }
+.reel-frame img {
+  flex: 0 0 var(--slide);
+  width: var(--slide);
+  aspect-ratio: 5 / 3;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;   /* square corners (the images are cropped clear of their old rounded corners) */
+  background: var(--card-bg);
+  cursor: pointer;
+}
+.reel-label, .reel-bar { max-width: var(--slide); }
+@media (prefers-reduced-motion: reduce) { .reel-frame { scroll-behavior: auto; } }
+.reel-bar { display: flex; justify-content: space-between; gap: var(--unit); margin-top: var(--u2); }
+.reel-bar .caption { opacity: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reel-bar nav { display: flex; gap: var(--u2); flex-shrink: 0; }
+.reel-bar .short { display: none; }
+/* Phones: the caption and both full words don't fit on one line, so the links shorten to Prv / Nxt. */
+@media (max-width: 600px) {
+  .reel-bar .long { display: none; }
+  .reel-bar .short { display: inline; }
+}
+
+/* Footer: "© year Andres" at the page's right edge, on the same line as the reel's
+   caption and Previous / Next (same grid row as the reel, aligned to its last line). */
+.contact { grid-column: 9 / -1; grid-row: 3; align-self: end; text-align: right; }
+
+/* The logo again at the bottom right, on the contact links' baseline, so people who scroll
+   past the top still meet it (it ticks in when it comes into view). Its cell, the right
+   half of the row, is the stage its spokes walk on, leftwards. */
+.logo-end {
+  grid-column: 7 / -1;
+  align-self: end;
+  text-align: right;
+  position: static;
+}
+.logo-await .spoke { opacity: 0; }   /* hidden until it ticks in (logo-intro.js) */
+
+/* Secondary text set in the grey. */
+.muted { opacity: var(--muted); }
+
+
+@media (max-width: 800px) {
+  .home { grid-template-columns: 1fr; row-gap: var(--unit); }
+  .home .bio, .reel, .contact, .home > .logo-sidebar { grid-column: 1; }
+  .reel { grid-row: auto; }
+  .reel { --slide: calc(100cqw - var(--unit) * 2); }   /* phones: most of the screen, the next slide peeks */
+  .home > .logo-sidebar { margin-bottom: var(--unit); }
+  .contact { grid-row: auto; margin-top: var(--unit); text-align: left; }   /* phones: its own line below the reel, flush left with everything else */
+  .topbar { margin-bottom: 0; gap: 0 var(--u2); }   /* the grid’s row gap gives the line below; a wrapped second line stays on the line grid */
+  .navlinks { gap: var(--u2); }
+}
+
+/* ── Work index ── */
+.work-index {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--unit) / 2);
   width: 100%;
-  height: 100%;
+  max-width: var(--wrap);
+}
+
+.work-list {
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.work-list li {
+  border-bottom: 1px solid var(--rule);
+}
+
+.work-row {
+  display: grid;
+  grid-template-columns: 1fr calc(var(--unit) * 6) calc(var(--unit) * 2) var(--u2);
+  align-items: baseline;
+  gap: var(--u2);
+  padding: calc(var(--unit) / 2 - 0.5px) 0;   /* row + 1px rule = 2 lines */
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.work-row .work-meta,
+.work-row .work-year {
+  opacity: var(--muted);
+}
+
+.work-row .work-year {
+  text-align: right;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.work-lock {
+  opacity: var(--muted);
+}
+
+/* Lock sits on the baseline like a character: cap height × 9/8 (a major second). */
+.work-lock svg {
+  height: calc(1cap * 9 / 8);
+  width: auto;
+  vertical-align: baseline;
+}
+
+a.work-row .work-title {
+  transition: transform 0.25s ease;
+}
+
+a.work-row:hover .work-title,
+a.work-row:focus-visible .work-title {
+  transform: translateX(var(--u4));
+}
+
+.work-row.is-soon {
+  cursor: default;
+}
+
+.work-row.is-soon .work-title {
+  opacity: 0.4;
+}
+
+/* Cursor-following preview, desktop pointers only */
+.work-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: calc(var(--unit) * 8);
+  aspect-ratio: 5 / 3;
+  border-radius: var(--radius);
   overflow: hidden;
   background: var(--card-bg);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
 }
 
-.carousel-card img {
+.work-preview.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.work-preview img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  opacity: 0;
-  filter: blur(12px);
-  transition: opacity 0.5s ease, filter 0.5s ease;
 }
 
-.carousel-card img.loaded {
-  opacity: 1;
-  filter: blur(0);
-}
-
-/* ── Footer ── */
-.footer {
-  font-size: 18px;
-  line-height: 36px;
-}
-
-.footer a {
-  color: var(--fg);
-  text-decoration: underline;
-  text-decoration-skip-ink: none;
-}
-
-.footer a:hover {
-  opacity: 0.75;
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .work-preview { display: none; }
 }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
+  :root {
+    --text-m: 20px;
+    --lh-m: 1.2;
+  }
+
   .page {
     flex-direction: column;
-    gap: 38px;
-    padding: 38px 38px 64px;
+    gap: var(--unit);
   }
 
   .logo-sidebar {
     position: static;
-    width: auto;
   }
 
   .contents {
-    gap: 48px;
+    gap: calc(var(--unit) * 2);
+  }
+
+  .work-row {
+    grid-template-columns: 1fr auto var(--u2);
+    row-gap: 0;
+  }
+
+  .work-row .work-title {
+    grid-column: 1 / -1;
+  }
+
+  .work-row .work-meta {
+    grid-column: 1;
   }
 
 }

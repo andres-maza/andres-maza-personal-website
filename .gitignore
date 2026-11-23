@@ -1,0 +1,6 @@
+.DS_Store
+# Unencrypted sources for password-protected case studies. Never commit.
+_private/
+
+# Local-only previews and experiments.
+_dev/
