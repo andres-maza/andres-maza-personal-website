@@ -42,6 +42,31 @@
   }) : [];
   const ready = Promise.race([Promise.all(loading), new Promise(function (r) { setTimeout(r, 600); })]);
 
+  // The first time a browser sets a glyph (above all one a face lacks, so it has to look
+  // for another font) can take tens of ms. Set each one once, out of sight, in idle
+  // moments, so it doesn't happen in the middle of a scroll.
+  const idle = window.requestIdleCallback || function (f) { setTimeout(f, 50); };
+  const prime = function () {
+    const probe = document.createElement('span');
+    probe.setAttribute('aria-hidden', 'true');
+    probe.className = 'visually-hidden';
+    document.body.appendChild(probe);
+    const chars = Object.keys(ALT).reduce(function (all, k) { return all.concat(k, k.toUpperCase(), ALT[k]); }, []);
+    const todo = [];
+    STYLES.forEach(function (st) { todo.push([st, chars.slice(0, 15)], [st, chars.slice(15)]); });
+    const next = function () {
+      const v = todo.shift();
+      if (!v) { probe.remove(); return; }
+      probe.style.fontFamily = v[0].family;
+      probe.style.fontStyle = v[0].italic ? 'italic' : '';
+      probe.textContent = v[1].join(' ');
+      probe.getBoundingClientRect();
+      idle(next);
+    };
+    idle(next);
+  };
+  ready.then(prime);
+
   const scrambler = function (host) {
     // Each letter's own advance, in em, measured from the name as set (works for
     // monospaced and proportional faces alike).
@@ -148,7 +173,7 @@
   };
 
   // The favicon: the name's first letter, knocked out of a block of the signature blue, scrambling with
-  // the name (on load, as the pointer moves, as anything scrolls) and settling back to a
+  // the name (on load and as the pointer moves; it holds still while anything scrolls) and settling back to a
   // plain "A". Drawn on a canvas and swapped into the tab's icon. Browsers that ignore
   // icon changes (Safari) keep the static one from the page's <link>.
   const favicon = function () {
@@ -158,8 +183,12 @@
     if (!link || !ctx) return null;
     const S = 64;
     canvas.width = canvas.height = S;
-    const ICON_MS = 90;   // tab icons are slow to repaint: change at most this often
-    const draw = function (style, text) {
+    const ICON_MS = 280;       // tab icons are slow to repaint: change at most this often
+    const SCROLL_HOLD = 250;   // and not at all until this long after the last scroll, so scrolling stays smooth
+    const frames = new Map();   // each icon is drawn and encoded once, then reused
+    const render = function (style, text) {
+      const key = style + text;
+      if (frames.has(key)) return frames.get(key);
       const st = STYLES[style];
       ctx.fillStyle = '#1C00F0';   // the signature blue
       ctx.fillRect(0, 0, S, S);
@@ -170,8 +199,29 @@
       const x = (S - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft)) / 2 + m.actualBoundingBoxLeft;
       const y = (S + m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
       ctx.fillText(text, x, y);
+      const url = canvas.toDataURL('image/png');
+      frames.set(key, url);
+      return url;
+    };
+    let shown = null;
+    const draw = function (style, text) {
+      const url = render(style, text);
+      if (url === shown) return;
+      shown = url;
       link.type = 'image/png';
-      link.href = canvas.toDataURL('image/png');
+      link.href = url;
+    };
+    // Draw every variant ahead of time, one per idle moment.
+    const prepare = function () {
+      const todo = [];
+      STYLES.forEach(function (_, i) { ['A', 'a'].concat(ALT.a).forEach(function (t) { todo.push([i, t]); }); });
+      const next = function () {
+        const v = todo.shift();
+        if (!v) return;
+        render(v[0], v[1]);
+        idle(next);
+      };
+      idle(next);
     };
     const plain = function () { draw(0, 'A'); };
     const shuffle = function () {
@@ -183,11 +233,13 @@
       } while (style === 0 && text === 'A');
       draw(style, text);
     };
-    let travelled = 0, lastChange = 0, restTimer = null, running = false;
-    const moved = function (distance) {
-      travelled += distance;
+    let travelled = 0, lastChange = 0, restTimer = null, running = false, lastScroll = -1e9;
+    const moved = function (distance, scrolling) {
       const now = performance.now();
-      if (travelled >= STEP && now - lastChange >= ICON_MS) {
+      if (scrolling) lastScroll = now;
+      const held = now - lastScroll < SCROLL_HOLD;
+      travelled = held ? 0 : travelled + distance;
+      if (!held && travelled >= STEP && now - lastChange >= ICON_MS) {
         travelled = 0; lastChange = now;
         shuffle();
       }
@@ -201,19 +253,19 @@
       const tick = function () {
         const u = (performance.now() - start) / duration;
         if (u >= 1) { running = false; if (!restTimer) plain(); return; }
-        shuffle();
+        if (performance.now() - lastScroll >= SCROLL_HOLD) shuffle();
         setTimeout(tick, Math.max(ICON_MS, INTRO_FAST + (INTRO_SLOW - INTRO_FAST) * u * u));
       };
       tick();
     };
-    ready.then(function () { plain(); intro(INTRO_MS); });
+    ready.then(function () { plain(); prepare(); intro(INTRO_MS); });
     return moved;
   };
 
   const movers = names.map(scrambler);
   const icon = favicon();
   if (icon) movers.push(icon);
-  const moved = function (d) { movers.forEach(function (m) { m(d); }); };
+  const moved = function (d, scrolling) { movers.forEach(function (m) { m(d, scrolling); }); };
 
   let lx = null, ly = null, lastScroll = scrollY;
   addEventListener('pointermove', function (e) {
@@ -221,7 +273,7 @@
     lx = e.clientX; ly = e.clientY;
   }, { passive: true });
   addEventListener('scroll', function () {
-    moved(Math.abs(scrollY - lastScroll));
+    moved(Math.abs(scrollY - lastScroll), true);
     lastScroll = scrollY;
   }, { passive: true });
   // Scrolling inside anything else (the work reel, sideways) scrambles it too. Scroll
@@ -235,6 +287,6 @@
     const prev = lastPos.get(el);
     const pos = { x: el.scrollLeft, y: el.scrollTop };
     lastPos.set(el, pos);
-    if (prev) moved(Math.min(MAX_JUMP, Math.hypot(pos.x - prev.x, pos.y - prev.y)));
+    if (prev) moved(Math.min(MAX_JUMP, Math.hypot(pos.x - prev.x, pos.y - prev.y)), true);
   }, { capture: true, passive: true });
 })();

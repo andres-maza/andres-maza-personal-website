@@ -215,18 +215,19 @@ mark {
 .navlinks a:hover, .navlinks a:focus-visible { opacity: 1; }
 
 /* Work: a strip of slides. Each slide is 4 of the 6 columns (one wider than the bio),
-   starting at column 1; the strip runs past the right gutter to the window's edge, so the
+   starting at column 1; the strip runs past both gutters to the window's edges, so the
    next slide peeks in (about half of it on a wide screen). Scrolls sideways freely (swipe,
    trackpad) and loops with no ends (carousel.js); Previous / Next and clicking a slide
    bring a slide to the front. No auto-advance. The label and the
    bar keep to the slide's width. */
 .reel { grid-column: 1 / -1; grid-row: 3; margin-top: calc(var(--unit) * 3); container-type: inline-size; }   /* shares its row with the footer (bottom right) */
-.reel { --slide: calc((100cqw - 11 * var(--u2)) * 8 / 12 + 7 * var(--u2)); }   /* 8 of 12 half columns */
+.reel { --slide: round(down, calc((100cqw - 11 * var(--u2)) * 8 / 12 + 7 * var(--u2)), 1px); }   /* 8 of 12 half columns */
 .reel-label { opacity: var(--muted); margin-bottom: var(--u2); }   /* the same half line above the image as the bar below */
 .reel-frame {
   display: flex;
   gap: var(--unit);                                 /* one line between slides */
-  margin-right: calc(var(--gutter) * -1);           /* bleed to the window's edge */
+  margin-inline: calc(var(--gutter) * -1);          /* bleed to both edges of the window */
+  padding-left: var(--gutter);                      /* the front slide still rests on the page margin */
   overflow-x: auto;
   scroll-behavior: smooth;   /* for the Previous / Next / click steps; hand scrolling stays free */
   overscroll-behavior-x: contain;
@@ -245,13 +246,14 @@ mark {
 }
 .reel-label, .reel-bar { max-width: var(--slide); }
 .reel-frame img {
-  opacity: var(--muted);                                  /* slides not at the front sit in the grey */
   transform: translateX(var(--lean, 0px));                /* leans towards the edge the mouse is near (carousel.js) */
-  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.reel-frame[data-side="prev"] img.is-front { cursor: w-resize; }   /* left half of the front slide: back */
-.reel-frame[data-side="next"] img.is-front { cursor: e-resize; }   /* right half: on */
-.reel-frame img.is-front, .reel-frame img:hover { opacity: 1; }
+.reel-frame img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; }
+.reel-frame img.is-front { cursor: grab; }   /* drag the strip by hand (carousel.js) */
+.reel-frame[data-side="prev"] img.is-front { cursor: w-resize; }   /* near the left edge: back */
+.reel-frame[data-side="next"] img.is-front { cursor: e-resize; }   /* near the right edge: on */
+.reel-frame.is-dragging, .reel-frame.is-dragging img, .reel-frame.is-dragging img.is-front { cursor: grabbing; }
 @media (prefers-reduced-motion: reduce) { .reel-frame img { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .reel-frame { scroll-behavior: auto; } }
 .reel-bar { display: flex; justify-content: space-between; gap: var(--unit); margin-top: var(--u2); }
@@ -282,6 +284,11 @@ mark {
 /* Secondary text set in the grey. */
 .muted { opacity: var(--muted); }
 
+
+/* Narrower windows: the bio takes more columns, so its lines keep 45 characters or more.
+   4 columns is the slide's width, so text and image share both edges. */
+@media (max-width: 1200px) { .home .bio { grid-column: 1 / span 8; } }
+@media (max-width: 940px) { .home .bio { grid-column: 1 / span 10; } }
 
 @media (max-width: 800px) {
   .home { grid-template-columns: 1fr; row-gap: var(--unit); }
