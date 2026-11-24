@@ -6,7 +6,7 @@
 // from the middle, it jumps back by exactly one set, instantly; the copies are identical,
 // so the jump can't be seen. Previous / Next / arrow keys step one slide; clicking a slide
 // brings it to the front (clicking the front one goes to the next). The caption names
-// the project of the slide at the front.
+// the project of the slide at the front, which is the only one at full strength.
 (function () {
   const frame = document.querySelector('.reel-frame');
   const originals = frame ? Array.from(frame.querySelectorAll('img')) : [];
@@ -38,7 +38,10 @@
   const index = function () { return Math.round(frame.scrollLeft / step()); };   // in the whole strip
   let front = n;   // strip index of the slide at the front
   const label = function () {
+    const was = slides[front];
     front = index();
+    if (was && was !== slides[front]) was.classList.remove('is-front');
+    if (slides[front]) slides[front].classList.add('is-front');   // the others are dimmed (styles.css)
     const i = ((front % n) + n) % n;
     caption.textContent = originals[i].dataset.name;
   };
@@ -68,9 +71,44 @@
   document.querySelectorAll('.reel-bar a').forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); go(index() + Number(a.dataset.step)); });
   });
+  // Clicking the front slide: its left half goes back, its right half goes on.
+  // Clicking any other slide brings that one to the front.
+  const sideOf = function (img, x) {
+    const r = img.getBoundingClientRect();
+    return x < r.left + r.width / 2 ? -1 : 1;
+  };
   slides.forEach(function (img, i) {
-    img.addEventListener('click', function () { go(i === index() ? i + 1 : i); });
+    img.addEventListener('click', function (e) {
+      const f = index();
+      go(i === f ? f + sideOf(img, e.clientX) : i);
+    });
   });
+
+  // Leaning: as a mouse nears either edge of the front slide, the strip drifts up to two
+  // lines (--unit × 2) that way (so on the left a sliver of the slide before shows), a hint of where a click will go. Off for touch and reduced motion.
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  let pointerX = null;
+  const lean = function () {
+    const img = slides[index()];
+    if (pointerX === null || still.matches || !img) { frame.style.setProperty('--lean', '0px'); return; }
+    const r = img.getBoundingClientRect();
+    const shift = parseFloat(frame.style.getPropertyValue('--lean')) || 0;   // measure where the slide sits unleaned
+    const t = (pointerX - (r.left - shift)) / r.width;  // 0 at the slide's left edge, 1 at its right
+    const unit = 2 * (parseFloat(getComputedStyle(frame).columnGap) || 28);   // the gap is one --unit
+    let k = 0;
+    if (t < 0.25) k = Math.min(1, (0.25 - t) / 0.25);     // left quarter: lean back
+    else if (t > 0.75) k = -Math.min(1, (t - 0.75) / 0.25);   // right quarter and beyond: lean on
+    frame.style.setProperty('--lean', (k * unit).toFixed(1) + 'px');
+    frame.dataset.side = t < 0.5 ? 'prev' : 'next';
+  };
+  const track = function (e) {
+    if (e.pointerType !== 'mouse') return;
+    pointerX = e.clientX;
+    lean();
+  };
+  frame.addEventListener('pointermove', track);
+  frame.addEventListener('pointerdown', track);
+  frame.addEventListener('pointerleave', function () { pointerX = null; lean(); });
   frame.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowRight') { e.preventDefault(); go(index() + 1); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); go(index() - 1); }
@@ -80,7 +118,7 @@
   frame.addEventListener('scroll', function () {
     if (queued) return;
     queued = true;
-    requestAnimationFrame(function () { queued = false; recentre(); label(); });
+    requestAnimationFrame(function () { queued = false; recentre(); label(); lean(); });
   }, { passive: true });
   addEventListener('resize', function () { jump(front * step()); });   // keep the front slide in place
 

@@ -9,10 +9,11 @@
 //
 // Each letter keeps its own width as set in the page's font (the scramble never reflows
 // the line) and has zero line height (other fonts' taller metrics can't push the line
-// down). Screen readers get the plain name. Off for reduced motion.
+// down). Screen readers get the plain name. The favicon's "A" scrambles along with it
+// (see favicon below). Off for reduced motion.
 (function () {
   const names = Array.from(document.querySelectorAll('[data-scramble]'));
-  if (!names.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const STYLES = [
     { family: "'Geist', 'Helvetica Neue', Arial, sans-serif" },   // [0] = the page's own
@@ -146,7 +147,72 @@
     return moved;
   };
 
+  // The favicon: the name's first letter, knocked out of a block of the signature blue, scrambling with
+  // the name (on load, as the pointer moves, as anything scrolls) and settling back to a
+  // plain "A". Drawn on a canvas and swapped into the tab's icon. Browsers that ignore
+  // icon changes (Safari) keep the static one from the page's <link>.
+  const favicon = function () {
+    const link = document.querySelector('link[rel~="icon"]');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext && canvas.getContext('2d');
+    if (!link || !ctx) return null;
+    const S = 64;
+    canvas.width = canvas.height = S;
+    const ICON_MS = 90;   // tab icons are slow to repaint: change at most this often
+    const draw = function (style, text) {
+      const st = STYLES[style];
+      ctx.fillStyle = '#1C00F0';   // the signature blue
+      ctx.fillRect(0, 0, S, S);
+      ctx.fillStyle = '#fff';
+      ctx.font = (st.italic ? 'italic ' : '') + '400 ' + S * 0.85 + 'px ' + st.family;   // capital about 61% of the square, as in Studio RAN's
+      const m = ctx.measureText(text);
+      // centre the glyph's ink, whatever its face's metrics
+      const x = (S - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft)) / 2 + m.actualBoundingBoxLeft;
+      const y = (S + m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+      ctx.fillText(text, x, y);
+      link.type = 'image/png';
+      link.href = canvas.toDataURL('image/png');
+    };
+    const plain = function () { draw(0, 'A'); };
+    const shuffle = function () {
+      let style, text;
+      do {
+        style = Math.floor(Math.random() * STYLES.length);
+        text = Math.random() < ALT_CHANCE ? ALT.a[Math.floor(Math.random() * ALT.a.length)]
+             : Math.random() < 0.5 ? 'A' : 'a';
+      } while (style === 0 && text === 'A');
+      draw(style, text);
+    };
+    let travelled = 0, lastChange = 0, restTimer = null, running = false;
+    const moved = function (distance) {
+      travelled += distance;
+      const now = performance.now();
+      if (travelled >= STEP && now - lastChange >= ICON_MS) {
+        travelled = 0; lastChange = now;
+        shuffle();
+      }
+      clearTimeout(restTimer);
+      restTimer = setTimeout(function () { restTimer = null; if (!running) plain(); }, REST_MS);
+    };
+    const intro = function (duration) {
+      if (running) return;
+      running = true;
+      const start = performance.now();
+      const tick = function () {
+        const u = (performance.now() - start) / duration;
+        if (u >= 1) { running = false; if (!restTimer) plain(); return; }
+        shuffle();
+        setTimeout(tick, Math.max(ICON_MS, INTRO_FAST + (INTRO_SLOW - INTRO_FAST) * u * u));
+      };
+      tick();
+    };
+    ready.then(function () { plain(); intro(INTRO_MS); });
+    return moved;
+  };
+
   const movers = names.map(scrambler);
+  const icon = favicon();
+  if (icon) movers.push(icon);
   const moved = function (d) { movers.forEach(function (m) { m(d); }); };
 
   let lx = null, ly = null, lastScroll = scrollY;
